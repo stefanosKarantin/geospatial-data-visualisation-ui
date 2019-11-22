@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom'
 
 import {
-  AppBar
+  AppBar,
+  PrivateRoute
 } from './components';
 
 import { Home } from './Home';
@@ -14,7 +15,7 @@ import { Home } from './Home';
 const Root = () => (
   <div style={{height: '100%'}}>
     {/*<AppBar />*/}
-    <Route exact path='/dashboard' component={Home}/>
+    <PrivateRoute exact path='/' component={Home}/>
   </div>
 );
 
