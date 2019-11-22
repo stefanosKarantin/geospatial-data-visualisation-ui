@@ -14,7 +14,7 @@ import { Home } from './Home';
 const Root = () => (
   <div style={{height: '100%'}}>
     {/*<AppBar />*/}
-    <Route exact path='/' component={Home}/>
+    <Route exact path='/dashboard' component={Home}/>
   </div>
 );
 
