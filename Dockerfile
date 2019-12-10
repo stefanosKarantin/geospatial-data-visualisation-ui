@@ -1,13 +1,11 @@
 # stage: 1
 FROM node:8 as react-build
-
-WORKDIR /app
-
-COPY . /app
-
+WORKDIR /home/app
+COPY . ./
 RUN npm i
 RUN npm run build
 
-FROM alpine:latest
-
-COPY --from=react-build /app/build /app
+# Stage 2 - the production environment
+FROM alpine
+COPY --from=react-build /home/app/build /build
+ENTRYPOINT ["echo", "running ui"]
