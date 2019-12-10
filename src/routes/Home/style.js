@@ -8,6 +8,7 @@ const styles = {
     justifyContent: 'center'
   },
   filters: {
+    backgroundColor: 'green',
     width: '400px',
     display: 'flex',
     alignItems: 'center',
