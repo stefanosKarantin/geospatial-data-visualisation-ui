@@ -11,11 +11,13 @@ import {
 } from './components';
 
 import { Home } from './Home';
+import { Login } from './Login';
 
 const Root = () => (
   <div style={{height: '100%'}}>
     {/*<AppBar />*/}
-    <Route exact path='/' component={Home}/>
+    <Route exact path='/' component={Login} />
+    <PrivateRoute exact path='/dashboard' component={Home}/>
   </div>
 );
 

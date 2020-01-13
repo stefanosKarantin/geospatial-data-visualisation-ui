@@ -1,9 +1,7 @@
 import Root from './root';
-// import { Prediction } from './prediction';
-// import { Voyage } from './voyage';
+import { Login } from './Login';
 
 export {
   Root,
-  // Prediction,
-  // Voyage
+  Login
 };
