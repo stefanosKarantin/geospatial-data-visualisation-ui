@@ -1,4 +1,6 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
+
 import { connectProps } from 'store';
 import {
   resetToken,
@@ -8,11 +10,12 @@ import {
 import {
   signIn,
   toggleLoadingTrue,
-  resetState
+  resetState,
 } from 'modules/component-props';
 
 import LoginForm from './loginForm';
 
+import { classes } from './style.js';
 class Login extends React.Component {
   componentDidMount () {
     resetToken();
@@ -22,12 +25,14 @@ class Login extends React.Component {
   render () {
     const { signIn, toggleLoadingTrue } = this.props;
     return (
-      <LoginForm
-        onSubmit={(values) => {
-          toggleLoadingTrue();
-          signIn(values);
-        }}
-      />
+      <div>
+        <LoginForm
+          onSubmit={(values) => {
+            toggleLoadingTrue();
+            signIn(values);
+          }}
+        />
+      </div>
     )
   }
 }

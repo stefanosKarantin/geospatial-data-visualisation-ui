@@ -15,6 +15,11 @@ import {
 
 import { getfbSDK } from './oauth';
 
+import {
+  signInService,
+  refreshTokenService
+} from './services';
+
 export {
   updateToken,
   resetToken,
@@ -32,5 +37,8 @@ export {
   saveState,
   resetState,
 
-  getfbSDK
+  getfbSDK,
+
+  signInService,
+  refreshTokenService
 };

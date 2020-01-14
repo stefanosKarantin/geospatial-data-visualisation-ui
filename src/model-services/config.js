@@ -1,3 +1,3 @@
-export const baseUrl = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5090'
+export const accessPoint = process.env.NODE_ENV === 'development'
+    ? 'localhost:5000'
     : `${window.location.protocol}//${window.location.host}/api`;

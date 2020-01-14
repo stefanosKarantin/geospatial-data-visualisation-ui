@@ -47,7 +47,13 @@ import {
 } from 'model-services';
 
 import {
-
+  redirectionError,
+  signIn,
+  getNewAccessToken,
+  refreshTokenSuccess,
+  updateStateUser,
+  toggleLoadingFalse,
+  updateNotification
 } from './actions';
 
 const redirectionErrorEpic = action$ =>
@@ -83,8 +89,6 @@ const signInEpic = (action$) =>
                 info: data.user
               }),
               reset('loginForm'),
-              fetchPorts(),
-              fetchCompanyVessels({companyId : 1})
             ]
             : [
               setSubmitFailed('loginForm'),

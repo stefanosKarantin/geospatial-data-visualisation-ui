@@ -14,6 +14,7 @@ import {
   toggleLoadingTrue as toggleLoadingTrueAction,
   toggleLoadingFalse as toggleLoadingFalseAction,
   resetState as resetStateAction,
+  googleLogin as googleLoginAction
 } from './actions';
 
 /////////////////////////////////
@@ -38,12 +39,17 @@ resetState: () => { dispatch(resetStateAction()) },
 
 const changeLocation = actionProp((dispatch) =>({
   changeLocation: payload => { dispatch(push(payload)) }
-}))
+}));
+
+const googleLogin = actionProp((dispatch) =>({
+  changeLocation: payload => { dispatch(push(payload)) }
+}));
 
 export {
   changeLocation,
   signIn,
   toggleLoadingTrue,
   toggleLoadingFalse,
-  resetState
+  resetState,
+  googleLogin
 };
