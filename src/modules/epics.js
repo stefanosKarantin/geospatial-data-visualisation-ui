@@ -74,12 +74,14 @@ const signInEpic = (action$) =>
   .pipe(
     mergeMap(action => observableDefer(_ => signInService(action.payload))
       .pipe(
-        mergeMap(({ data }) => {
-          if (data.success) {
+        mergeMap((data) => {
+
+          if (data.data.success) {
             updateToken(data.auth.token);
             updateRefreshToken(data.auth.refreshToken);
             updateUser(data.user);
           };
+          console.log(data)
           return data.success
             ? [
               push('/home'),

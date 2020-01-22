@@ -66,6 +66,7 @@
     "react-app-polyfill": "^1.0.2",
     "react-dev-utils": "^9.0.3",
     "react-dom": "^16.7.0",
+    "react-google-login": "^5.0.7",
     "react-jss": "^8.6.1",
     "react-live-clock": "^3.0.0",
     "react-redux": "^6.0.0",
