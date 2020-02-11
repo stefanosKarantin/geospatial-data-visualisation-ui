@@ -9,7 +9,7 @@ let initialState = {
 };
 
 const reducer = handleActions({
-  
+
   },
   {
     ...initialState,

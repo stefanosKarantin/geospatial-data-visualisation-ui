@@ -44,6 +44,7 @@ import {
 
   signInService,
   refreshTokenService,
+  fetchGeoJson
 } from 'model-services';
 
 import {
@@ -53,7 +54,9 @@ import {
   refreshTokenSuccess,
   updateStateUser,
   toggleLoadingFalse,
-  updateNotification
+  updateNotification,
+  getGeoData,
+  updateGeoData
 } from './actions';
 
 const redirectionErrorEpic = action$ =>
@@ -77,17 +80,17 @@ const signInEpic = (action$) =>
         mergeMap((data) => {
 
           if (data.data.success) {
-            updateToken(data.auth.token);
-            updateRefreshToken(data.auth.refreshToken);
-            updateUser(data.user);
+            updateToken(data.data.auth_token);
+            updateRefreshToken(data.data.auth_refresh_token);
+            updateUser(data.data.email);
           };
-          console.log(data)
-          return data.success
+
+          return data.data.success
             ? [
-              push('/home'),
+              push('/dashboard'),
               updateStateUser({
-                token: data.auth.token,
-                refreshToken: data.auth.refreshToken,
+                token: data.data.auth_token,
+                refreshToken: data.data.auth_refresh_token,
                 info: data.user
               }),
               reset('loginForm'),
@@ -111,23 +114,36 @@ const getNewAccessTokenEpic = action$ =>
    .pipe(
      switchMap(_ => {
        const refreshToken = getRefreshToken();
-       const { username } = getUser();
-       return observableFrom(refreshTokenService({ username, refreshToken }))
-         .pipe(
-           flatMap(({ data: { token } }) => {
-             updateToken(token);
-             return [
-               refreshTokenSuccess(),
-               updateStateUser({ token })
-             ];
-           }),
-           catchError(err => observableOf(
-             redirectionError({ err })
-           ))
-         );
+       const { email } = getUser();
+       return observableFrom(refreshTokenService({ email, refreshToken }))
+            .pipe(
+                flatMap(({ data: { token } }) => {
+                    updateToken(token);
+                    return [
+                        refreshTokenSuccess(),
+                        updateStateUser({ token })
+                    ];
+                }),
+                catchError(err => observableOf(
+                    redirectionError({ err })
+                ))
+            );
      })
    );
 
+const getGeoJsonEpic = action$ =>
+    action$.ofType(getGeoData.type)
+        .pipe(
+            mergeMap(_ =>
+                observableFrom(fetchGeoJson())
+                    .pipe(
+                        mergeMap(({data}) => {
+                            console.log(data)
+                            return [toggleLoadingFalse()]
+                        })
+                    )
+            )
+        );
 const homeEpic = combineEpics(
   redirectionErrorEpic,
   signInEpic,

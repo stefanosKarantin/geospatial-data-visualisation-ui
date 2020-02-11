@@ -26,6 +26,10 @@ const refreshTokenSuccess = rootAction('REFRESH_TOKEN_SUCCESS');
 const updateStateUser = rootAction('UPDATE_STATE_USER');
 
 const updateNotification = rootAction('UPDATE_NOTIFICATION');
+
+const getGeoData = rootAction('GET_GEO_DATA');
+
+const updateGeoData = rootAction('UPDATE_GEO_DATA');
 /////////////////////////////////////
 
 
@@ -39,5 +43,7 @@ export {
     redirectionError,
     refreshTokenSuccess,
     updateStateUser,
-    updateNotification
+    updateNotification,
+    getGeoData,
+    updateGeoData
 };

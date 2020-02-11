@@ -17,7 +17,8 @@ import { getfbSDK } from './oauth';
 
 import {
   signInService,
-  refreshTokenService
+  refreshTokenService,
+  fetchGeoJson
 } from './services';
 
 export {
@@ -40,5 +41,6 @@ export {
   getfbSDK,
 
   signInService,
-  refreshTokenService
+  refreshTokenService,
+  fetchGeoJson
 };

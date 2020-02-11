@@ -56,7 +56,7 @@ const LoginForm = ({ handleSubmit, pristine, reset, submitting, error, invalid, 
     <div className={`${classes.loginPaper} ${classes.slideTop}`}>
       <div className={classes.insidePaper}>
         {/*<img src={logo} className={classes.logo} alt={'login-logo'}/>*/}
-        <div className={classes.loginTitle}>{'We flat'}</div>
+        <div className={classes.loginTitle}>{'GEO DATA VISUALIZE'}</div>
         <form onSubmit={handleSubmit} className={classes.loginForm}>
           <Field
             name={'email'}
