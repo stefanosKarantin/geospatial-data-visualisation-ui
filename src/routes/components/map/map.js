@@ -7,6 +7,8 @@ import { Tile as TileLayer, Vector as LayerVector} from 'ol/layer';
 import { OSM, TileWMS, Vector as SourceVector} from 'ol/source';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import GeoJSON from 'ol/format/GeoJSON';
+import Circle from 'ol/geom/Circle';
+import Feature from 'ol/Feature';
 
 import {
     getToken
@@ -14,15 +16,79 @@ import {
 
 import { connectProps } from 'store';
 
-var styles = {
-    'Polygon': new Style({
-      fill: new Fill({
-        color: 'rgba(0, 0, 255, 0.1)'
-      })
-    })
-  };
+const image = new CircleStyle({
+    radius: 1,
+    fill: null,
+    stroke: new Stroke({color: 'red', width: 1})
+  });
 
-const styleFunction = (feature) => styles[feature.getGeometry().getType()];
+const styles = {
+    'Point': new Style({
+        image: image
+    }),
+    'LineString': new Style({
+        stroke: new Stroke({
+            color: 'green',
+            width: 1
+        })
+    }),
+    'MultiLineString': new Style({
+        stroke: new Stroke({
+            color: 'green',
+            width: 1
+        })
+    }),
+    'MultiPoint': new Style({
+        image: image
+    }),
+    'MultiPolygon': new Style({
+        stroke: new Stroke({
+            color: 'yellow',
+            width: 1
+        }),
+        fill: new Fill({
+            color: 'rgba(255, 255, 0, 0.1)'
+        })
+    }),
+    'Polygon': new Style({
+        stroke: new Stroke({
+            color: 'blue',
+            lineDash: [4],
+            width: 3
+        }),
+        fill: new Fill({
+            color: 'rgba(0, 0, 255, 0.1)'
+        })
+    }),
+    'GeometryCollection': new Style({
+        stroke: new Stroke({
+            color: 'magenta',
+            width: 5
+        }),
+        fill: new Fill({
+            color: 'magenta'
+        }),
+        image: new CircleStyle({
+            radius: 1000,
+            fill: null,
+            stroke: new Stroke({
+                color: 'magenta'
+            })
+        })
+    }),
+    'Circle': new Style({
+        stroke: new Stroke({
+            color: 'red',
+            width: 2
+        }),
+        fill: new Fill({
+            color: 'rgba(255,0,0,0.2)'
+        })
+    })
+};
+
+
+const styleFunction = feature => styles[feature.getGeometry().getType()];
 
 const fetchGeoData = () => (
     new Promise((resolve, reject) => {
@@ -49,32 +115,28 @@ const MapBox = () => {
         fetchGeoData()
         .then(data => {
             const polygons = {
-                'type': 'FeatureCollection',
-                'crs': {
-                  'type': 'name',
-                  'properties': {
-                    'name': 'EPSG:3857'
-                  }
-                },
-                'features': [{
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'GeometryCollection',
-                        'geometries': data.polygons.map(p => JSON.parse(p[2]))
+                type: 'FeatureCollection',
+                features: [{
+                    type: 'Feature',
+                    geometry: {
+                        type: 'GeometryCollection',
+                        geometries: data.polygons.map(p => JSON.parse(p[2]))
                     }
                 }]
             };
             console.log(polygons)
-            var vectorSource = new SourceVector({
-                features: (new GeoJSON()).readFeatures(polygons)
+            const vectorSource = new SourceVector({
+                features: (new GeoJSON()).readFeatures(JSON.stringify(polygons))
             });
 
-            var vectorLayer = new LayerVector({
+            vectorSource.addFeature(new Feature(new Circle([25.6610724931167,35.3506065657392], 1e6)));
+
+            const vectorLayer = new LayerVector({
                 source: vectorSource,
                 style: styleFunction
             });
 
-            var map = new Map({
+            const map = new Map({
                 layers: [
                     new TileLayer({
                         source: new OSM()
@@ -83,8 +145,9 @@ const MapBox = () => {
                 ],
                 target: 'map',
                 view: new View({
-                    center: [0, 0],
-                    zoom: 2
+                    center: washingtonWebMercator,
+                    zoom: 2,
+                    multiWorld: true
                 })
             });
         })
