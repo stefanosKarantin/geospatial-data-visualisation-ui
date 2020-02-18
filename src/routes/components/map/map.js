@@ -9,7 +9,7 @@ import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import GeoJSON from 'ol/format/GeoJSON';
 import Circle from 'ol/geom/Circle';
 import Feature from 'ol/Feature';
-
+import {fromLonLat} from 'ol/proj';
 import {
     getToken
 } from 'model-services';
@@ -63,7 +63,7 @@ const styles = {
     'GeometryCollection': new Style({
         stroke: new Stroke({
             color: 'magenta',
-            width: 5
+            width: 2
         }),
         fill: new Fill({
             color: 'magenta'
@@ -107,11 +107,6 @@ const fetchGeoData = () => (
 const MapBox = () => {
 
     useEffect(() => {
-        // const featuresLayer = new LayerVector({
-        //   source: new SourceVector({
-        //     features:[],
-        //   })
-        // });
         fetchGeoData()
         .then(data => {
             const polygons = {
@@ -129,52 +124,56 @@ const MapBox = () => {
                 features: (new GeoJSON()).readFeatures(JSON.stringify(polygons))
             });
 
-            vectorSource.addFeature(new Feature(new Circle([25.6610724931167,35.3506065657392], 1e6)));
-
             const vectorLayer = new LayerVector({
                 source: vectorSource,
-                style: styleFunction
+                // style: styleFunction
             });
 
-            const map = new Map({
-                layers: [
-                    new TileLayer({
-                        source: new OSM()
-                    }),
-                    vectorLayer
-                ],
-                target: 'map',
-                view: new View({
-                    center: washingtonWebMercator,
-                    zoom: 2,
-                    multiWorld: true
-                })
-            });
+            // const map = new Map({
+            //     target: 'map',
+            //     layers: [
+            //         new TileLayer({
+            //             source: new OSM()
+            //         }),
+            //         vectorLayer
+            //     ],
+            //     view: new View({
+            //         projection: 'EPSG:4326',
+            //         center: [25.743713, 35.196256],
+            //         zoom: 10
+            //         // multiWorld: true
+            //     })
+            // });
         })
         .catch(err => console.log(err))
 
-        // const map = new Map({
-        //     target: 'map',
-        //     layers: [
-        //         new TileLayer({
-        //             source: new OSM()
-        //         }),
-        //         new TileLayer({
-        //             // extend: [-13884991, 2870341, -7455066, 6338219],
-        //             source: new TileWMS({
-        //                 url: 'https://ahocevar.com/geoserver/wms',
-        //                 params: { 'LAYERS': 'topp:states', 'TILED': true},
-        //                 serverType: 'geoserver',
-        //                 transition: 400
-        //             })
-        //         })
-        //         // featuresLayer
-        //     ],
-        //     view: new View({
-        //         center: [-10997148, 4569099],
-        //         zoom: 4,
-        //     })
-        // });
+        const featuresLayer = new LayerVector({
+          source: new SourceVector({
+            features:[],
+          })
+        });
+        const map = new Map({
+            target: 'map',
+            layers: [
+                new TileLayer({
+                    source: new OSM()
+                }),
+                new TileLayer({
+                    // extend: [-13884991, 2870341, -7455066, 6338219],
+                    source: new TileWMS({
+                        url: 'https://ahocevar.com/geoserver/wms',
+                        params: { 'LAYERS': 'topp:states', 'TILED': true},
+                        serverType: 'geoserver',
+                        transition: 400
+                    })
+                })
+                // featuresLayer
+            ],
+            view: new View({
+                center: [-10997148, 4569099],
+                zoom: 4,
+            })
+        });
     }, []);
     return (
         <div style={{width: '100%'}} id={'map'} />
