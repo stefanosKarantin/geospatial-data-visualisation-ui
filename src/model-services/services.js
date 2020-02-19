@@ -18,6 +18,8 @@ const postService = (endPoint, hasToken) => payload =>
 
 export const signInService = postService('/auth/login', false);
 
+export const registerService = postService('/auth/register', false);
+
 export const refreshTokenService = postService('/auth/refresh', false);
 
 export const fetchGeoJson = postService('/geo/getcretandata', true);

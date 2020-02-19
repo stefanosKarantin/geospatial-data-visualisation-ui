@@ -14,7 +14,8 @@ import {
   toggleLoadingTrue as toggleLoadingTrueAction,
   toggleLoadingFalse as toggleLoadingFalseAction,
   resetState as resetStateAction,
-  googleLogin as googleLoginAction
+  googleLogin as googleLoginAction,
+  register as registerAction,
 } from './actions';
 
 /////////////////////////////////
@@ -22,32 +23,37 @@ import {
 ////////////////////////////////
 
 const signIn = actionProp((dispatch) => ({
-signIn: (payload) => { dispatch(signInAction(payload)) },
+    signIn: (payload) => { dispatch(signInAction(payload)) },
+}));
+
+const register = actionProp((dispatch) => ({
+    register: (payload) => { dispatch(registerAction(payload)) },
 }));
 
 const toggleLoadingTrue = actionProp((dispatch) => ({
-toggleLoadingTrue: (payload) => { dispatch(toggleLoadingTrueAction(payload)) },
+    toggleLoadingTrue: (payload) => { dispatch(toggleLoadingTrueAction(payload)) },
 }));
 
 const toggleLoadingFalse = actionProp((dispatch) => ({
-toggleLoadingFalse: (payload) => { dispatch(toggleLoadingFalseAction(payload)) },
+    toggleLoadingFalse: (payload) => { dispatch(toggleLoadingFalseAction(payload)) },
 }));
 
 const resetState = actionProp(dispatch => ({
-resetState: () => { dispatch(resetStateAction()) },
+    resetState: () => { dispatch(resetStateAction()) },
 }));
 
 const changeLocation = actionProp((dispatch) =>({
-  changeLocation: payload => { dispatch(push(payload)) }
+    changeLocation: payload => { dispatch(push(payload)) }
 }));
 
 const googleLogin = actionProp((dispatch) =>({
-  changeLocation: payload => { dispatch(push(payload)) }
+    googleLogin: payload => { dispatch(googleLoginAction(payload)) }
 }));
 
 export {
   changeLocation,
   signIn,
+  register,
   toggleLoadingTrue,
   toggleLoadingFalse,
   resetState,

@@ -19,7 +19,9 @@ const resetState = rootAction('RESET_STATE');
 
 const redirectionError = rootAction('REDIRECTION_ERROR');
 
-const googleLogin = rootAction('SIGN_IN');
+const googleLogin = rootAction('GOOGLE_LOGIN');
+
+const register = rootAction('REGISTER');
 
 const refreshTokenSuccess = rootAction('REFRESH_TOKEN_SUCCESS');
 
@@ -45,5 +47,6 @@ export {
     updateStateUser,
     updateNotification,
     getGeoData,
-    updateGeoData
+    updateGeoData,
+    register
 };

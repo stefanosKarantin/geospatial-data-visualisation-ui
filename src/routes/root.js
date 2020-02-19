@@ -12,11 +12,13 @@ import {
 
 import { Home } from './Home';
 import { Login } from './Login';
+import { Register } from './Register';
 
 const Root = () => (
   <div style={{height: '100%'}}>
     {/*<AppBar />*/}
     <Route exact path='/' component={Login} />
+    <Route path='/register' component={Register} />
     <PrivateRoute exact path='/dashboard' component={Home}/>
   </div>
 );

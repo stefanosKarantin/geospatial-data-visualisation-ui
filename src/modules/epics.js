@@ -43,6 +43,7 @@ import {
   updateUser,
 
   signInService,
+  registerService,
   refreshTokenService,
   fetchGeoJson
 } from 'model-services';
@@ -50,6 +51,8 @@ import {
 import {
   redirectionError,
   signIn,
+  register,
+  googleLogin,
   getNewAccessToken,
   refreshTokenSuccess,
   updateStateUser,
@@ -109,6 +112,70 @@ const signInEpic = (action$) =>
     ),
   );
 
+const registerEpic = (action$) =>
+    action$.ofType(register.type)
+        .pipe(
+            mergeMap(action => observableDefer(_ => registerService(action.payload))
+                .pipe(
+                    mergeMap((data) => {
+
+                        if (data.data.success) {
+                            updateToken(data.data.auth_token);
+                            updateRefreshToken(data.data.auth_refresh_token);
+                            updateUser(data.data.email);
+                        };
+
+                        return data.data.success
+                        ? [
+                            push('/dashboard'),
+                            updateStateUser({
+                                token: data.data.auth_token,
+                                refreshToken: data.data.auth_refresh_token,
+                                info: data.user
+                            }),
+                            reset('registerForm'),
+                        ]
+                        : [
+                            setSubmitFailed('registerForm'),
+                            resetSection('registerForm', 'password'),
+                            resetSection('registerForm', 'confirm'),
+                            stopSubmit('registerForm', {
+                                _error: 'Sign up failed. Please try again later',
+                            }),
+                            toggleLoadingFalse()
+                        ]
+                    }),
+                    serverError(action$, refreshTokenSuccess, redirectionError, getNewAccessToken)
+                )
+            ),
+        );
+
+
+const googleLoginEpic = (action$) =>
+    action$.ofType(googleLogin.type)
+        .pipe(
+            mergeMap(action => {
+                const {
+                    accessToken,
+                    tokenId,
+                    email
+                } = action.payload;
+                updateToken(accessToken);
+                updateRefreshToken(tokenId);
+                updateUser(email);
+
+                return [
+                    push('/dashboard'),
+                    updateStateUser({
+                        token: accessToken,
+                        refreshToken: tokenId,
+                        info: email
+                    })
+                ];
+            }),
+            serverError(action$, refreshTokenSuccess, redirectionError, getNewAccessToken)
+        );
+
 const getNewAccessTokenEpic = action$ =>
  action$.ofType(getNewAccessToken.type)
    .pipe(
@@ -147,6 +214,8 @@ const getGeoJsonEpic = action$ =>
 const homeEpic = combineEpics(
   redirectionErrorEpic,
   signInEpic,
+  registerEpic,
+  googleLoginEpic,
   getNewAccessTokenEpic
 );
 

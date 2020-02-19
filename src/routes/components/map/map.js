@@ -129,51 +129,51 @@ const MapBox = () => {
                 // style: styleFunction
             });
 
-            // const map = new Map({
-            //     target: 'map',
-            //     layers: [
-            //         new TileLayer({
-            //             source: new OSM()
-            //         }),
-            //         vectorLayer
-            //     ],
-            //     view: new View({
-            //         projection: 'EPSG:4326',
-            //         center: [25.743713, 35.196256],
-            //         zoom: 10
-            //         // multiWorld: true
-            //     })
-            // });
+            const map = new Map({
+                target: 'map',
+                layers: [
+                    new TileLayer({
+                        source: new OSM()
+                    }),
+                    vectorLayer
+                ],
+                view: new View({
+                    projection: 'EPSG:4326',
+                    center: [25.743713, 35.196256],
+                    zoom: 10
+                    // multiWorld: true
+                })
+            });
         })
         .catch(err => console.log(err))
 
-        const featuresLayer = new LayerVector({
-          source: new SourceVector({
-            features:[],
-          })
-        });
-        const map = new Map({
-            target: 'map',
-            layers: [
-                new TileLayer({
-                    source: new OSM()
-                }),
-                new TileLayer({
-                    // extend: [-13884991, 2870341, -7455066, 6338219],
-                    source: new TileWMS({
-                        url: 'https://ahocevar.com/geoserver/wms',
-                        params: { 'LAYERS': 'topp:states', 'TILED': true},
-                        serverType: 'geoserver',
-                        transition: 400
-                    })
-                })
-                // featuresLayer
-            ],
-            view: new View({
-                center: [-10997148, 4569099],
-                zoom: 4,
-            })
-        });
+        // const featuresLayer = new LayerVector({
+        //   source: new SourceVector({
+        //     features:[],
+        //   })
+        // });
+        // const map = new Map({
+        //     target: 'map',
+        //     layers: [
+        //         new TileLayer({
+        //             source: new OSM()
+        //         }),
+        //         new TileLayer({
+        //             // extend: [-13884991, 2870341, -7455066, 6338219],
+        //             source: new TileWMS({
+        //                 url: 'https://ahocevar.com/geoserver/wms',
+        //                 params: { 'LAYERS': 'topp:states', 'TILED': true},
+        //                 serverType: 'geoserver',
+        //                 transition: 400
+        //             })
+        //         })
+        //         // featuresLayer
+        //     ],
+        //     view: new View({
+        //         center: [-10997148, 4569099],
+        //         zoom: 4,
+        //     })
+        // });
     }, []);
     return (
         <div style={{width: '100%'}} id={'map'} />

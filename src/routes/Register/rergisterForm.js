@@ -12,8 +12,9 @@ import { classes } from './style.js';
 import { connectProps } from 'store';
 
 import {
-  changeLocation,
-  googleLogin
+    register,
+    changeLocation,
+    googleLogin
 } from 'modules/component-props';
 
 const renderField = ({
@@ -47,7 +48,7 @@ const renderField = ({
     </div>
   </div>
 
-const LoginForm = ({
+const RegisterForm = ({
     handleSubmit,
     pristine,
     reset,
@@ -61,7 +62,7 @@ const LoginForm = ({
     <div className={`${classes.loginPaper} ${classes.slideTop}`}>
       <div className={classes.insidePaper}>
         <div className={classes.loginTitle}>{'GEO DATA VISUALIZE'}</div>
-        <div className={classes.loginSubtitle}>{'Login'}</div>
+        <div className={classes.loginSubtitle}>{'Sign Up'}</div>
         <form onSubmit={handleSubmit} className={classes.loginForm}>
           <Field
             name={'email'}
@@ -75,6 +76,12 @@ const LoginForm = ({
             component={renderField}
             label={'Password'}
           />
+          <Field
+            name={'confirm'}
+            type={'password'}
+            component={renderField}
+            label={'Confirm Password'}
+          />
          {error && <div className={classes.loginError}>{error}</div>}
          <Button
             disableRipple
@@ -85,7 +92,7 @@ const LoginForm = ({
             type={'submit'}
             disabled={invalid}
          >
-           {'Sign in'}
+           {'Sign up'}
          </Button>
         </form>
         <Button
@@ -93,13 +100,13 @@ const LoginForm = ({
             classes={{
               root: classes.signUpButton,
             }}
-            onClick={() => changeLocation('/register')}
+            onClick={() => changeLocation('/')}
          >
-           {'Sign up'}
+           {'Already a user'}
          </Button>
         <GoogleLogin
             clientId="206578547470-qtpfqnnaik8uci4gc415tj1428pan031.apps.googleusercontent.com"
-            buttonText="Login"
+            buttonText="Sign Up"
             onSuccess={(response) => {
                 response.profileObj &&
                     googleLogin({
@@ -117,6 +124,6 @@ const LoginForm = ({
   </div>;
 
 export default connectProps(changeLocation, googleLogin)(reduxForm({
-  form: 'loginForm',
+  form: 'registerForm',
   validate,
-})(LoginForm));
+})(RegisterForm));
