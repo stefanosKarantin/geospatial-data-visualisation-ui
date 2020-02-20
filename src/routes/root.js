@@ -2,24 +2,27 @@ import React from 'react';
 
 import {
   Route,
-  withRouter
+  withRouter,
+  Switch
 } from 'react-router-dom'
 
 import {
-  AppBar,
   PrivateRoute
 } from './components';
 
 import { Home } from './Home';
 import { Login } from './Login';
 import { Register } from './Register';
+import { NotFound } from './NotFound';
 
 const Root = () => (
   <div style={{height: '100%'}}>
-    {/*<AppBar />*/}
-    <Route exact path='/' component={Login} />
-    <Route path='/register' component={Register} />
-    <PrivateRoute exact path='/dashboard' component={Home}/>
+    <Switch>
+        <Route exact path='/' component={Login} />
+        <Route path='/register' component={Register} />
+        <PrivateRoute exact path='/dashboard' component={Home}/>
+        <Route component={NotFound} />
+    </Switch>
   </div>
 );
 

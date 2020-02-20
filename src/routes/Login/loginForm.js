@@ -13,7 +13,9 @@ import { connectProps } from 'store';
 
 import {
   changeLocation,
-  googleLogin
+  googleLogin,
+  toggleLoadingTrue,
+  toggleLoadingFalse
 } from 'modules/component-props';
 
 const renderField = ({
@@ -55,7 +57,9 @@ const LoginForm = ({
     error,
     invalid,
     changeLocation,
-    googleLogin
+    googleLogin,
+    toggleLoadingTrue,
+    toggleLoadingFalse
 }) =>
   <div className={classes.loginPage}>
     <div className={`${classes.loginPaper} ${classes.slideTop}`}>
@@ -101,14 +105,19 @@ const LoginForm = ({
             clientId="206578547470-qtpfqnnaik8uci4gc415tj1428pan031.apps.googleusercontent.com"
             buttonText="Login"
             onSuccess={(response) => {
-                response.profileObj &&
+                if(response.profileObj) {
+                    toggleLoadingTrue();
                     googleLogin({
                         accessToken: response.accessToken,
                         tokenId: response.tokenId,
                         email: response.profileObj.email
                     });
+                }
             }}
-            onFailure={(response) => console.log(response)}
+            onFailure={(response) => {
+                toggleLoadingFalse();
+                console.log(response);
+            }}
             cookiePolicy={'single_host_origin'}
             className={classes.googleLoginBtn}
         />
@@ -116,7 +125,12 @@ const LoginForm = ({
     </div>
   </div>;
 
-export default connectProps(changeLocation, googleLogin)(reduxForm({
+export default connectProps(
+    changeLocation,
+    googleLogin,
+    toggleLoadingTrue,
+    toggleLoadingFalse
+)(reduxForm({
   form: 'loginForm',
   validate,
 })(LoginForm));

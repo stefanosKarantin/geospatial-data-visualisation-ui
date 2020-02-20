@@ -7,15 +7,17 @@ import {
 
 import { classes } from './style';
 
-import { Map } from '../components'
+import { Map, Layout } from '../components'
 const Home = () => (
-  <div style={{height: '100%'}}>
-    <div className={classes.mapWrapper}>
-      <Map />
-      <div className={classes.filters}><span>FILTERS</span></div>
-    </div>
-    <div className={classes.timeline}>TIMELINE</div>
-  </div>
+    <Layout>
+        <div className={classes.mapWrapper}>
+            <Map />
+        <div className={classes.filters}>
+            <span>FILTERS</span>
+        </div>
+        </div>
+        <div className={classes.timeline}>TIMELINE</div>
+    </Layout>
 );
 
 export default Home;

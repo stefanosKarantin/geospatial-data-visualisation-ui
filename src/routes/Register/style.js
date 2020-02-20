@@ -30,7 +30,6 @@ const styles = {
   insidePaper: {
     padding: '50px 40px 40px',
     width: '400px',
-    marginBottom: '45px',
     backgroundColor: 'white',
     boxShadow: '0 1px 1px rgba(0,0,0,.05)',
     borderRadius: '4px',

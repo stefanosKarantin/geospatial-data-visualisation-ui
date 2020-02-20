@@ -11,11 +11,14 @@ import {
 
 import {
   signIn as signInAction,
+  logout as logoutAction,
   toggleLoadingTrue as toggleLoadingTrueAction,
   toggleLoadingFalse as toggleLoadingFalseAction,
   resetState as resetStateAction,
   googleLogin as googleLoginAction,
   register as registerAction,
+  updateNotification as updateNotificationAction,
+  getGeoData as getGeoDataAction
 } from './actions';
 
 /////////////////////////////////
@@ -24,6 +27,10 @@ import {
 
 const signIn = actionProp((dispatch) => ({
     signIn: (payload) => { dispatch(signInAction(payload)) },
+}));
+
+const logout = actionProp((dispatch) => ({
+    logout: (payload) => { dispatch(logoutAction(payload)) },
 }));
 
 const register = actionProp((dispatch) => ({
@@ -50,12 +57,38 @@ const googleLogin = actionProp((dispatch) =>({
     googleLogin: payload => { dispatch(googleLoginAction(payload)) }
 }));
 
+const updateNotification = actionProp((dispatch) =>({
+    updateNotification: payload => { dispatch(updateNotificationAction(payload)) }
+}));
+
+const getGeoData = actionProp((dispatch) =>({
+    getGeoData: payload => { dispatch(getGeoDataAction(payload)) }
+}));
+
+const notification = stateProp(({ app: { notification } }) => ({
+    notification
+}));
+
+const isLoaderVisible = stateProp(({ app: { isLoaderVisible } }) => ({
+    isLoaderVisible
+}));
+
+const geodata = stateProp(({ app: { geodata } }) => ({
+    geodata
+}));
+
 export {
   changeLocation,
   signIn,
+  logout,
   register,
   toggleLoadingTrue,
   toggleLoadingFalse,
   resetState,
-  googleLogin
+  googleLogin,
+  updateNotification,
+  getGeoData,
+  notification,
+  isLoaderVisible,
+  geodata
 };

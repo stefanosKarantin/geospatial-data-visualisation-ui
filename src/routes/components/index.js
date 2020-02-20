@@ -1,9 +1,15 @@
 import { AppBar } from './AppBar';
-import { Map } from './map';
+import { Map } from './Map';
 import { PrivateRoute } from './PrivateRoute';
+import { Layout } from './Layout';
+import { NotificationBar } from './NotificationBar';
+import { Loader } from './Loader';
 
 export {
   AppBar,
   Map,
-  PrivateRoute
+  PrivateRoute,
+  Layout,
+  NotificationBar,
+  Loader
 };

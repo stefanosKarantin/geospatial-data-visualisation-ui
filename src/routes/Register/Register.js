@@ -1,46 +1,37 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
+import React, { useEffect } from 'react';
 
 import { connectProps } from 'store';
-import {
-  resetToken,
-  resetUser,
-} from 'model-services';
+import { getToken } from 'model-services';
 
 import {
     register,
     toggleLoadingTrue,
-    resetState,
+    changeLocation
 } from 'modules/component-props';
 
 import RegisterForm from './rergisterForm';
 
-import { classes } from './style.js';
+const Register = (props) => {
+    useEffect(() => {
+        getToken() && changeLocation('/dashboard')
+    }, [])
 
-class Register extends React.Component {
-    componentDidMount () {
-        resetToken();
-        resetUser();
-        this.props.resetState();
-    }
-    render () {
-        const { register, toggleLoadingTrue } = this.props;
-        return (
-            <div>
-            <RegisterForm
-                onSubmit={(values) => {
-                    console.log(values)
-                    toggleLoadingTrue();
-                    register(values);
-                }}
-            />
-            </div>
-        )
-    }
+    const { register, toggleLoadingTrue, changeLocation } = props;
+    return (
+        <div>
+        <RegisterForm
+            onSubmit={(values) => {
+                toggleLoadingTrue();
+                register(values);
+            }}
+        />
+        </div>
+    )
 }
+
 
 export default connectProps(
     register,
     toggleLoadingTrue,
-    resetState
+    changeLocation
 )(Register);

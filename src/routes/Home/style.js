@@ -18,7 +18,7 @@ const styles = {
   },
   mapWrapper: {
     display: 'flex',
-    height: 'calc(100% - 150px)'
+    height: 'calc(100% - 214px)'
   }
 };
 

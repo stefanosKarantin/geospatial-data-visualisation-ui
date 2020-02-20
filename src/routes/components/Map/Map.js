@@ -16,6 +16,8 @@ import {
 
 import { connectProps } from 'store';
 
+import { getGeoData, geodata } from 'modules/component-props';
+
 const image = new CircleStyle({
     radius: 1,
     fill: null,
@@ -90,6 +92,29 @@ const styles = {
 
 const styleFunction = feature => styles[feature.getGeometry().getType()];
 
+const vectorSource = new SourceVector(/*{
+    features: (new GeoJSON()).readFeatures(JSON.stringify(polygons))
+}*/);
+
+const vectorLayer = new LayerVector({
+    source: vectorSource,
+    // style: styleFunction
+});
+const map = new Map({
+    target: 'map',
+    layers: [
+        new TileLayer({
+            source: new OSM()
+        }),
+        vectorLayer
+    ],
+    view: new View({
+        projection: 'EPSG:4326',
+        center: [25.743713, 35.196256],
+        zoom: 11
+    })
+});
+
 const fetchGeoData = () => (
     new Promise((resolve, reject) => {
         fetch('http://localhost:5000/geo/getcretandata', {
@@ -104,48 +129,49 @@ const fetchGeoData = () => (
     })
 );
 
-const MapBox = () => {
-
+const MapBox = ({ getGeoData, geodata }) => {
     useEffect(() => {
-        fetchGeoData()
-        .then(data => {
-            const polygons = {
-                type: 'FeatureCollection',
-                features: [{
-                    type: 'Feature',
-                    geometry: {
-                        type: 'GeometryCollection',
-                        geometries: data.polygons.map(p => JSON.parse(p[2]))
-                    }
-                }]
-            };
-            console.log(polygons)
-            const vectorSource = new SourceVector({
-                features: (new GeoJSON()).readFeatures(JSON.stringify(polygons))
-            });
+        getGeoData();
+        console.log(JSON.stringify(geodata))
+        !_.isEmpty(geodata) && vectorSource.addFeatures(new GeoJSON()).readFeatures(JSON.stringify(geodata))
+        // fetchGeoData()
+        // .then(data => {
+        //     const polygons = {
+        //         type: 'FeatureCollection',
+        //         features: [{
+        //             type: 'Feature',
+        //             geometry: {
+        //                 type: 'GeometryCollection',
+        //                 geometries: data.polygons.map(p => JSON.parse(p[2]))
+        //             }
+        //         }]
+        //     };
+        //     console.log(polygons)
+        //     const vectorSource = new SourceVector({
+        //         features: (new GeoJSON()).readFeatures(JSON.stringify(polygons))
+        //     });
 
-            const vectorLayer = new LayerVector({
-                source: vectorSource,
-                // style: styleFunction
-            });
+        //     const vectorLayer = new LayerVector({
+        //         source: vectorSource,
+        //         // style: styleFunction
+        //     });
 
-            const map = new Map({
-                target: 'map',
-                layers: [
-                    new TileLayer({
-                        source: new OSM()
-                    }),
-                    vectorLayer
-                ],
-                view: new View({
-                    projection: 'EPSG:4326',
-                    center: [25.743713, 35.196256],
-                    zoom: 10
-                    // multiWorld: true
-                })
-            });
-        })
-        .catch(err => console.log(err))
+        //     const map = new Map({
+        //         target: 'map',
+        //         layers: [
+        //             new TileLayer({
+        //                 source: new OSM()
+        //             }),
+        //             vectorLayer
+        //         ],
+        //         view: new View({
+        //             projection: 'EPSG:4326',
+        //             center: [25.743713, 35.196256],
+        //             zoom: 11
+        //         })
+        //     });
+        // })
+        // .catch(err => console.log(err))
 
         // const featuresLayer = new LayerVector({
         //   source: new SourceVector({
@@ -174,10 +200,10 @@ const MapBox = () => {
         //         zoom: 4,
         //     })
         // });
-    }, []);
+    }, [geodata]);
     return (
         <div style={{width: '100%'}} id={'map'} />
     );
 }
 
-export default connectProps()(MapBox);
+export default connectProps(getGeoData, geodata)(MapBox);

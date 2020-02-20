@@ -7,13 +7,13 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { changeLocation } from 'modules/component-props';
+import { changeLocation, logout } from 'modules/component-props';
 
 import { connectProps } from 'store';
 
 const styles = {
   root: {
-    flexGrow: 1,
+    flexGrow: 3,
   },
   grow: {
     flexGrow: 1,
@@ -25,7 +25,7 @@ const styles = {
 };
 
 const Bar = ( props ) => {
-  const { classes, changeLocation } = props;
+  const { classes, changeLocation, logout } = props;
   return (
     <div style={styles.root}>
       <AppBar position="static">
@@ -33,11 +33,9 @@ const Bar = ( props ) => {
           <IconButton style={styles.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" style={styles.grow}>
-            <Button onClick={() => changeLocation('/') } color="inherit"></Button>
-          </Typography>
-          <Button onClick={() => changeLocation('/signup') } color="inherit">Signup</Button>
-          <Button onClick={() => changeLocation('/login') } color="inherit">Login</Button>
+          <Typography variant="h6" color="inherit" style={styles.grow} />
+
+          <Button onClick={() => logout()} color="inherit">Logout</Button>
         </Toolbar>
       </AppBar>
     </div>
@@ -45,8 +43,8 @@ const Bar = ( props ) => {
 }
 
 Bar.propTypes = {
-  // classes: PropTypes.object.isRequired,
-  changeLocation: PropTypes.func.isRequired
+  changeLocation: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
-export default connectProps(changeLocation)(Bar);
+export default connectProps(changeLocation, logout)(Bar);

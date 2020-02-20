@@ -1,22 +1,22 @@
 import { combineEpics } from 'redux-observable';
 import {
-  // interval as observableInterval,
-  // Observable,
-  of as observableOf,
-  from as observableFrom,
-  defer as observableDefer
+    // interval as observableInterval,
+    // Observable,
+    of as observableOf,
+    from as observableFrom,
+    defer as observableDefer
 } from 'rxjs';
 
 import {
-  mergeMap,
-  // map,
-  switchMap,
-  catchError,
-  // takeUntil,
-  // take,
-  // merge,
-  // concat,
-  flatMap
+    mergeMap,
+    // map,
+    switchMap,
+    catchError,
+    // takeUntil,
+    // take,
+    // merge,
+    // concat,
+    flatMap
 } from 'rxjs/operators';
 
 import { serverError } from 'store/operators';
@@ -28,38 +28,44 @@ import { push } from 'connected-react-router';
 // import axios from 'axios';
 
 import {
-  reset,
-  stopSubmit,
-  setSubmitFailed,
-  resetSection,
-  // change
+    reset,
+    stopSubmit,
+    setSubmitFailed,
+    resetSection,
+    // change
 } from 'redux-form';
 
 import {
-  updateToken,
-  updateRefreshToken,
-  getRefreshToken,
-  getUser,
-  updateUser,
+    updateToken,
+    updateRefreshToken,
+    getRefreshToken,
+    getUser,
+    updateUser,
 
-  signInService,
-  registerService,
-  refreshTokenService,
-  fetchGeoJson
+    resetToken,
+    resetRefreshToken,
+    resetUser,
+
+    signInService,
+    logoutService,
+    registerService,
+    refreshTokenService,
+    fetchGeoJson
 } from 'model-services';
 
 import {
-  redirectionError,
-  signIn,
-  register,
-  googleLogin,
-  getNewAccessToken,
-  refreshTokenSuccess,
-  updateStateUser,
-  toggleLoadingFalse,
-  updateNotification,
-  getGeoData,
-  updateGeoData
+    redirectionError,
+    signIn,
+    logout,
+    register,
+    googleLogin,
+    getNewAccessToken,
+    refreshTokenSuccess,
+    updateStateUser,
+    toggleLoadingFalse,
+    updateNotification,
+    getGeoData,
+    updateGeoData
 } from './actions';
 
 const redirectionErrorEpic = action$ =>
@@ -71,7 +77,8 @@ const redirectionErrorEpic = action$ =>
           open: true,
           type: payload.errorType || 'warning',
           message: payload.errorMessage || 'Sorry, your token has expired. Please login again'
-        })
+        }),
+        toggleLoadingFalse()
       ]))
     );
 
@@ -87,7 +94,7 @@ const signInEpic = (action$) =>
             updateRefreshToken(data.data.auth_refresh_token);
             updateUser(data.data.email);
           };
-
+          console.log(data)
           return data.data.success
             ? [
               push('/dashboard'),
@@ -97,12 +104,13 @@ const signInEpic = (action$) =>
                 info: data.user
               }),
               reset('loginForm'),
+              toggleLoadingFalse()
             ]
             : [
               setSubmitFailed('loginForm'),
               resetSection('loginForm', 'password'),
               stopSubmit('loginForm', {
-                _error: 'Incorrect Username or Password',
+                _error: data.data.message,
               }),
               toggleLoadingFalse()
             ]
@@ -112,6 +120,31 @@ const signInEpic = (action$) =>
     ),
   );
 
+const logoutEpic = action$ =>
+    action$.ofType(logout.type)
+        .pipe(
+            mergeMap(action => observableDefer(_ => logoutService())
+                .pipe(
+                    mergeMap(data => {
+                        if (data.data.success) {
+                            resetToken();
+                            resetRefreshToken();
+                            resetUser();
+                        };
+
+                        return data.data.success
+                            ? [
+                                updateStateUser(),
+                                push('/'),
+                                toggleLoadingFalse()
+                            ]
+                            : [
+                                toggleLoadingFalse()
+                            ]
+                    })
+                )
+            )
+        )
 const registerEpic = (action$) =>
     action$.ofType(register.type)
         .pipe(
@@ -124,7 +157,7 @@ const registerEpic = (action$) =>
                             updateRefreshToken(data.data.auth_refresh_token);
                             updateUser(data.data.email);
                         };
-
+                        console.log(data)
                         return data.data.success
                         ? [
                             push('/dashboard'),
@@ -134,13 +167,14 @@ const registerEpic = (action$) =>
                                 info: data.user
                             }),
                             reset('registerForm'),
+                            toggleLoadingFalse()
                         ]
                         : [
                             setSubmitFailed('registerForm'),
                             resetSection('registerForm', 'password'),
                             resetSection('registerForm', 'confirm'),
                             stopSubmit('registerForm', {
-                                _error: 'Sign up failed. Please try again later',
+                                _error: data.data.message,
                             }),
                             toggleLoadingFalse()
                         ]
@@ -170,7 +204,8 @@ const googleLoginEpic = (action$) =>
                         token: accessToken,
                         refreshToken: tokenId,
                         info: email
-                    })
+                    }),
+                    toggleLoadingFalse()
                 ];
             }),
             serverError(action$, refreshTokenSuccess, redirectionError, getNewAccessToken)
@@ -188,7 +223,8 @@ const getNewAccessTokenEpic = action$ =>
                     updateToken(token);
                     return [
                         refreshTokenSuccess(),
-                        updateStateUser({ token })
+                        updateStateUser({ token }),
+                        toggleLoadingFalse()
                     ];
                 }),
                 catchError(err => observableOf(
@@ -205,18 +241,33 @@ const getGeoJsonEpic = action$ =>
                 observableFrom(fetchGeoJson())
                     .pipe(
                         mergeMap(({data}) => {
-                            console.log(data)
-                            return [toggleLoadingFalse()]
+                            const polygons = {
+                                type: 'FeatureCollection',
+                                features: [{
+                                    type: 'Feature',
+                                    geometry: {
+                                        type: 'GeometryCollection',
+                                        geometries: data.polygons.map(p => JSON.parse(p[2]))
+                                    }
+                                }]
+                            };
+                            return [
+                                toggleLoadingFalse(),
+                                updateGeoData(polygons)
+                            ];
                         })
                     )
             )
         );
+
 const homeEpic = combineEpics(
   redirectionErrorEpic,
   signInEpic,
+  logoutEpic,
   registerEpic,
   googleLoginEpic,
-  getNewAccessTokenEpic
+  getNewAccessTokenEpic,
+  getGeoJsonEpic
 );
 
  export default homeEpic;

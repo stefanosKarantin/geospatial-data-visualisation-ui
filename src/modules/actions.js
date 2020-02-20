@@ -1,5 +1,12 @@
 
-import { createAction } from 'store';
+import { createAction as createReduxAction } from 'redux-actions';
+
+const createAction = (nameSpace) => (actionID) => {
+  const ACTION_CONST = `${nameSpace}/${actionID}`;
+  const actionCreator = createReduxAction(ACTION_CONST);
+  actionCreator.type = ACTION_CONST;
+  return actionCreator;
+}
 
 //////////////////////////////////////
 // Root Actions
@@ -8,6 +15,8 @@ import { createAction } from 'store';
 const rootAction = createAction('@@ROOT');
 
 const signIn = rootAction('SIGN_IN');
+
+const logout = rootAction('LOG_OUT');
 
 const toggleLoadingTrue = rootAction('TOGGLE_LOADING_TRUE');
 
@@ -37,6 +46,7 @@ const updateGeoData = rootAction('UPDATE_GEO_DATA');
 
 export {
     signIn,
+    logout,
     toggleLoadingTrue,
     toggleLoadingFalse,
     resetState,
