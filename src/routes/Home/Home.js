@@ -1,23 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import {
-  // Route,
-  // withRouter
-} from 'react-router-dom';
+import { connectProps } from 'store';
 
 import { classes } from './style';
 
-import { Map, Layout } from '../components'
-const Home = () => (
-    <Layout>
-        <div className={classes.mapWrapper}>
-            <Map />
-        <div className={classes.filters}>
-            <span>FILTERS</span>
-        </div>
-        </div>
-        <div className={classes.timeline}>TIMELINE</div>
-    </Layout>
-);
+import { Map, Layout, Filters } from 'routes/components'
 
-export default Home;
+import { getGeoData, toggleLoadingTrue } from 'modules/component-props';
+
+const Home = ({ getGeoData, toggleLoadingTrue }) => {
+    useEffect(() => {
+        toggleLoadingTrue();
+        getGeoData();
+    }, []);
+    return (
+        <Layout>
+            <div className={classes.mapWrapper}>
+                <Map />
+            <div className={classes.filters}>
+                <Filters />
+            </div>
+            </div>
+            <div className={classes.timeline}>TIMELINE</div>
+        </Layout>
+    )
+};
+
+export default connectProps(getGeoData, toggleLoadingTrue)(Home);

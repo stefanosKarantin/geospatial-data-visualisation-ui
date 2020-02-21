@@ -4,6 +4,7 @@ import { PrivateRoute } from './PrivateRoute';
 import { Layout } from './Layout';
 import { NotificationBar } from './NotificationBar';
 import { Loader } from './Loader';
+import { Filters } from './Filters';
 
 export {
   AppBar,
@@ -11,5 +12,6 @@ export {
   PrivateRoute,
   Layout,
   NotificationBar,
-  Loader
+  Loader,
+  Filters
 };

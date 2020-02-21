@@ -9,7 +9,7 @@ const styles = {
     alignItems: 'center',
     width: '100%',
     display: 'flex',
-    background: 'rgba(204, 206, 210, 0.7)',
+    background: 'rgba(204, 206, 210, 0.9)',
     justifyContent: 'center'
   },
   loaderInvisible: {

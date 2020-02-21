@@ -4,7 +4,8 @@ import {
     updateNotification,
     toggleLoadingTrue,
     toggleLoadingFalse,
-    updateGeoData
+    updateGeoData,
+    updateFilters
 } from './actions';
 
 let initialState = {
@@ -12,7 +13,8 @@ let initialState = {
         open: false
     },
     isLoaderVisible: false,
-    geodata: {}
+    geodata: {},
+    filters: {}
 };
 
 const reducer = handleActions({
@@ -34,6 +36,13 @@ const reducer = handleActions({
         ...state,
         geodata: payload
     }),
+    [updateFilters.type]: (state, { payload }) => ({
+        ...state,
+        filters: {
+            ...state.filters,
+            ...payload
+        }
+    })
   },
   {
     ...initialState,

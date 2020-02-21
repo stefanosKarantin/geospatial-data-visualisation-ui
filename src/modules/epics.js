@@ -65,7 +65,8 @@ import {
     toggleLoadingFalse,
     updateNotification,
     getGeoData,
-    updateGeoData
+    updateGeoData,
+    updateFilters
 } from './actions';
 
 const redirectionErrorEpic = action$ =>
@@ -94,7 +95,6 @@ const signInEpic = (action$) =>
             updateRefreshToken(data.data.auth_refresh_token);
             updateUser(data.data.email);
           };
-          console.log(data)
           return data.data.success
             ? [
               push('/dashboard'),
@@ -157,7 +157,6 @@ const registerEpic = (action$) =>
                             updateRefreshToken(data.data.auth_refresh_token);
                             updateUser(data.data.email);
                         };
-                        console.log(data)
                         return data.data.success
                         ? [
                             push('/dashboard'),
@@ -241,19 +240,18 @@ const getGeoJsonEpic = action$ =>
                 observableFrom(fetchGeoJson())
                     .pipe(
                         mergeMap(({data}) => {
-                            const polygons = {
-                                type: 'FeatureCollection',
-                                features: [{
-                                    type: 'Feature',
-                                    geometry: {
-                                        type: 'GeometryCollection',
-                                        geometries: data.polygons.map(p => JSON.parse(p[2]))
-                                    }
-                                }]
-                            };
+                            console.log(data)
                             return [
-                                toggleLoadingFalse(),
-                                updateGeoData(polygons)
+                                updateFilters(data.rasterValues.reduce((acc, cur) => ({
+                                    ...acc,
+                                    [cur]: {
+                                        checked: true,
+                                        value: cur,
+                                        label: cur
+                                    }
+                                }),{})),
+                                updateGeoData(data.polygons),
+                                toggleLoadingFalse()
                             ];
                         })
                     )

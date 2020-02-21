@@ -16,7 +16,7 @@ import {
 
 import { connectProps } from 'store';
 
-import { getGeoData, geodata } from 'modules/component-props';
+import { getGeoData, geodata, filters } from 'modules/component-props';
 
 const image = new CircleStyle({
     radius: 1,
@@ -92,118 +92,69 @@ const styles = {
 
 const styleFunction = feature => styles[feature.getGeometry().getType()];
 
-const vectorSource = new SourceVector(/*{
-    features: (new GeoJSON()).readFeatures(JSON.stringify(polygons))
-}*/);
-
-const vectorLayer = new LayerVector({
-    source: vectorSource,
-    // style: styleFunction
-});
-const map = new Map({
-    target: 'map',
-    layers: [
-        new TileLayer({
-            source: new OSM()
-        }),
-        vectorLayer
-    ],
-    view: new View({
-        projection: 'EPSG:4326',
-        center: [25.743713, 35.196256],
-        zoom: 11
-    })
-});
-
-const fetchGeoData = () => (
-    new Promise((resolve, reject) => {
-        fetch('http://localhost:5000/geo/getcretandata', {
-            method: 'POST',
-            headers: {
-                'Authorization': getToken(),
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => resolve(response.json()))
-        .catch(err => reject(err))
-    })
-);
-
-const MapBox = ({ getGeoData, geodata }) => {
+const MapBox = ({ geodata, filters }) => {
     useEffect(() => {
-        getGeoData();
-        console.log(JSON.stringify(geodata))
-        !_.isEmpty(geodata) && vectorSource.addFeatures(new GeoJSON()).readFeatures(JSON.stringify(geodata))
-        // fetchGeoData()
-        // .then(data => {
-        //     const polygons = {
-        //         type: 'FeatureCollection',
-        //         features: [{
-        //             type: 'Feature',
-        //             geometry: {
-        //                 type: 'GeometryCollection',
-        //                 geometries: data.polygons.map(p => JSON.parse(p[2]))
-        //             }
-        //         }]
-        //     };
-        //     console.log(polygons)
-        //     const vectorSource = new SourceVector({
-        //         features: (new GeoJSON()).readFeatures(JSON.stringify(polygons))
-        //     });
+        const vectorSource = new SourceVector({
+            // features: (new GeoJSON()).readFeatures(JSON.stringify(polygons))
+        });
+        const vectorLayer = new LayerVector({
+            source: vectorSource,
+            // style: styleFunction
+        });
+        const map = new Map({
+            target: 'map',
+            layers: [
+                new TileLayer({
+                    source: new OSM()
+                }),
+                vectorLayer
+            ],
+            view: new View({
+                projection: 'EPSG:4326',
+                center: [25.743713, 35.196256],
+                zoom: 11
+            })
+        });
+        document.getElementById('map').data = map
+    }, [])
 
-        //     const vectorLayer = new LayerVector({
-        //         source: vectorSource,
-        //         // style: styleFunction
-        //     });
+    useEffect(() => {
+        if (!_.isEmpty(geodata)) {
+            const rasterFilters = _.filter(filters, f => f.checked).map(f => f.value);
+            const filteredData = geodata.filter(g => rasterFilters.includes(g[1])).map(p => JSON.parse(p[2]))
+            const polygons = {
+                type: 'FeatureCollection',
+                features: [{
+                    type: 'Feature',
+                    geometry: {
+                        type: 'GeometryCollection',
+                        geometries: filteredData
+                    }
+                }]
+            };
+            console.log(filteredData)
+            // const vectorSource = new SourceVector();
 
-        //     const map = new Map({
-        //         target: 'map',
-        //         layers: [
-        //             new TileLayer({
-        //                 source: new OSM()
-        //             }),
-        //             vectorLayer
-        //         ],
-        //         view: new View({
-        //             projection: 'EPSG:4326',
-        //             center: [25.743713, 35.196256],
-        //             zoom: 11
-        //         })
-        //     });
-        // })
-        // .catch(err => console.log(err))
-
-        // const featuresLayer = new LayerVector({
-        //   source: new SourceVector({
-        //     features:[],
-        //   })
-        // });
-        // const map = new Map({
-        //     target: 'map',
-        //     layers: [
-        //         new TileLayer({
-        //             source: new OSM()
-        //         }),
-        //         new TileLayer({
-        //             // extend: [-13884991, 2870341, -7455066, 6338219],
-        //             source: new TileWMS({
-        //                 url: 'https://ahocevar.com/geoserver/wms',
-        //                 params: { 'LAYERS': 'topp:states', 'TILED': true},
-        //                 serverType: 'geoserver',
-        //                 transition: 400
-        //             })
-        //         })
-        //         // featuresLayer
-        //     ],
-        //     view: new View({
-        //         center: [-10997148, 4569099],
-        //         zoom: 4,
-        //     })
-        // });
-    }, [geodata]);
+            document.getElementById('map').data.getLayers().forEach(layer => {
+                if (layer instanceof LayerVector) {
+                    // layer.setSource(vectorSource.addFeatures((new GeoJSON()).readFeatures(JSON.stringify(polygons))))
+                    layer.getSource().addFeatures((new GeoJSON()).readFeatures(JSON.stringify(polygons)))
+                    // console.log(layer.getSource())
+                    // console.log(layer.getSource().getFeatures())
+                    layer.getSource().getFeatures().forEach(f => {
+                        // layer.getSource().removeFeature(f.ol_uid)
+                        console.log(f)
+                        f.setId('12345')
+                        console.log(f.getId())
+                        layer.getSource().removeFeature('12345')
+                    })
+                }
+            });
+        }
+    }, [geodata, filters]);
     return (
         <div style={{width: '100%'}} id={'map'} />
     );
 }
 
-export default connectProps(getGeoData, geodata)(MapBox);
+export default connectProps(getGeoData, geodata, filters)(MapBox);

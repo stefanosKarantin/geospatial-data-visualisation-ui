@@ -18,7 +18,8 @@ import {
   googleLogin as googleLoginAction,
   register as registerAction,
   updateNotification as updateNotificationAction,
-  getGeoData as getGeoDataAction
+  getGeoData as getGeoDataAction,
+  updateFilters as updateFiltersAction
 } from './actions';
 
 /////////////////////////////////
@@ -65,6 +66,10 @@ const getGeoData = actionProp((dispatch) =>({
     getGeoData: payload => { dispatch(getGeoDataAction(payload)) }
 }));
 
+const updateFilters = actionProp((dispatch) =>({
+    updateFilters: payload => { dispatch(updateFiltersAction(payload)) }
+}));
+
 const notification = stateProp(({ app: { notification } }) => ({
     notification
 }));
@@ -75,6 +80,10 @@ const isLoaderVisible = stateProp(({ app: { isLoaderVisible } }) => ({
 
 const geodata = stateProp(({ app: { geodata } }) => ({
     geodata
+}));
+
+const filters = stateProp(({ app: { filters } }) => ({
+    filters
 }));
 
 export {
@@ -88,7 +97,9 @@ export {
   googleLogin,
   updateNotification,
   getGeoData,
+  updateFilters,
   notification,
   isLoaderVisible,
-  geodata
+  geodata,
+  filters
 };

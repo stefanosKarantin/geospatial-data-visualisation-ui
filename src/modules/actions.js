@@ -41,11 +41,14 @@ const updateNotification = rootAction('UPDATE_NOTIFICATION');
 const getGeoData = rootAction('GET_GEO_DATA');
 
 const updateGeoData = rootAction('UPDATE_GEO_DATA');
+
+const updateFilters = rootAction('UPDATE_FILTERS');
 /////////////////////////////////////
 
 
 export {
     signIn,
+    register,
     logout,
     toggleLoadingTrue,
     toggleLoadingFalse,
@@ -58,5 +61,5 @@ export {
     updateNotification,
     getGeoData,
     updateGeoData,
-    register
+    updateFilters
 };
