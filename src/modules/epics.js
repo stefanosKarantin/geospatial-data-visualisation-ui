@@ -239,21 +239,18 @@ const getGeoJsonEpic = action$ =>
             mergeMap(_ =>
                 observableFrom(fetchGeoJson())
                     .pipe(
-                        mergeMap(({data}) => {
-                            console.log(data)
-                            return [
-                                updateFilters(data.rasterValues.reduce((acc, cur) => ({
-                                    ...acc,
-                                    [cur]: {
-                                        checked: true,
-                                        value: cur,
-                                        label: cur
-                                    }
-                                }),{})),
-                                updateGeoData(data.polygons),
-                                toggleLoadingFalse()
-                            ];
-                        })
+                        mergeMap(({data}) => ([
+                            updateFilters(data.rasterValues.reduce((acc, cur) => ({
+                                ...acc,
+                                [cur]: {
+                                    checked: true,
+                                    value: cur,
+                                    label: cur
+                                }
+                            }),{})),
+                            updateGeoData(data.polygons),
+                            toggleLoadingFalse()
+                        ]))
                     )
             )
         );

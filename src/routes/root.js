@@ -15,8 +15,11 @@ import { Login } from './Login';
 import { Register } from './Register';
 import { NotFound } from './NotFound';
 
+import { NotificationBar } from 'routes/components';
+
 const Root = () => (
   <div style={{height: '100%'}}>
+    <NotificationBar />
     <Switch>
         <Route exact path='/' component={Login} />
         <Route path='/register' component={Register} />

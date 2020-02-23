@@ -27,7 +27,7 @@ const styles = {
 const Bar = ( props ) => {
   const { classes, changeLocation, logout } = props;
   return (
-    <div style={styles.root}>
+    <div style={styles.root} id="ela">
       <AppBar position="static">
         <Toolbar>
           <IconButton style={styles.menuButton} color="inherit" aria-label="Menu">
