@@ -37,7 +37,9 @@ const createMap = (center, zoom) => {
 
 const MapBox = ({ geodata, filters }) => {
     useEffect(() => {
-        createMap([25.743713, 35.196256], 11);
+        center = [25.743713, 35.196256];
+        zoom = 11;
+        createMap(center, zoom);
     }, [])
 
     useEffect(() => {
