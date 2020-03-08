@@ -5,9 +5,9 @@ import {
 
 import { push } from 'connected-react-router'
 
-import {
-  formValueSelector
-} from 'redux-form';
+// import {
+//   formValueSelector
+// } from 'redux-form';
 
 import {
   signIn as signInAction,
@@ -19,7 +19,8 @@ import {
   register as registerAction,
   updateNotification as updateNotificationAction,
   getGeoData as getGeoDataAction,
-  updateFilters as updateFiltersAction
+  updateFilters as updateFiltersAction,
+  updateView as updateViewAction
 } from './actions';
 
 /////////////////////////////////
@@ -70,6 +71,10 @@ const updateFilters = actionProp((dispatch) =>({
     updateFilters: payload => { dispatch(updateFiltersAction(payload)) }
 }));
 
+const updateView = actionProp((dispatch) =>({
+    updateView: payload => { dispatch(updateViewAction(payload)) }
+}));
+
 const notification = stateProp(({ app: { notification } }) => ({
     notification
 }));
@@ -86,6 +91,10 @@ const filters = stateProp(({ app: { filters } }) => ({
     filters
 }));
 
+const selectedFeature = stateProp(({ app: { view: { selectedFeature } } }) => ({
+    selectedFeature
+}));
+
 export {
   changeLocation,
   signIn,
@@ -98,8 +107,10 @@ export {
   updateNotification,
   getGeoData,
   updateFilters,
+  updateView,
   notification,
   isLoaderVisible,
   geodata,
-  filters
+  filters,
+  selectedFeature
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { classes } from './style';
 
@@ -8,9 +8,9 @@ const Home = () =>
     <Layout>
         <div className={classes.mapWrapper}>
             <Map type='geojson' />
-        <div className={classes.filters}>
-            <Filters />
-        </div>
+            <div className={classes.filters}>
+                <Filters />
+            </div>
         </div>
         <div className={classes.timeline}>TIMELINE</div>
     </Layout>;

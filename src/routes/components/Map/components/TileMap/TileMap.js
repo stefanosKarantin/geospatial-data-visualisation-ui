@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import _ from 'lodash';
 
 import 'ol/ol.css';
 import { Map, View } from 'ol';

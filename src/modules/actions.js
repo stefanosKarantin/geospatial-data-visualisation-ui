@@ -43,6 +43,8 @@ const getGeoData = rootAction('GET_GEO_DATA');
 const updateGeoData = rootAction('UPDATE_GEO_DATA');
 
 const updateFilters = rootAction('UPDATE_FILTERS');
+
+const updateView = rootAction('UPDATE_VIEW');
 /////////////////////////////////////
 
 
@@ -61,5 +63,6 @@ export {
     updateNotification,
     getGeoData,
     updateGeoData,
-    updateFilters
+    updateFilters,
+    updateView
 };

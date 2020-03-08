@@ -25,7 +25,7 @@ const styles = {
 };
 
 const Bar = ( props ) => {
-  const { classes, changeLocation, logout } = props;
+  const { logout } = props;
   return (
     <div style={styles.root} id="ela">
       <AppBar position="static">

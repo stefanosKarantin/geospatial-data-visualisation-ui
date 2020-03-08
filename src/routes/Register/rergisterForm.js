@@ -12,7 +12,6 @@ import { classes } from './style.js';
 import { connectProps } from 'store';
 
 import {
-    register,
     changeLocation,
     googleLogin,
     toggleLoadingTrue,
@@ -24,7 +23,7 @@ const renderField = ({
   label,
   id,
   type,
-  meta: { asyncValidating, touched, error }
+  meta: { touched, error }
 }) =>
   <div>
     <div>
@@ -52,9 +51,6 @@ const renderField = ({
 
 const RegisterForm = ({
     handleSubmit,
-    pristine,
-    reset,
-    submitting,
     error,
     invalid,
     changeLocation,

@@ -21,7 +21,7 @@ import {
 
 import { serverError } from 'store/operators';
 
-import _ from 'lodash';
+// import _ from 'lodash';
 
 import { push } from 'connected-react-router';
 
