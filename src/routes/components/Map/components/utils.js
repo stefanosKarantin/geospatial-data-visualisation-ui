@@ -47,10 +47,19 @@ const addListeners = (map, updateView) => {
         if (selected !== null && selected !== clickSelected) {
             rasterValStyle(selected);
             selected = null;
+            updateView({
+                hoveredFeature: {}
+            });
         }
 
         map.forEachFeatureAtPixel(e.pixel, f => {
             selected = f;
+            updateView({
+                hoveredFeature: {
+                    id: f.get("id"),
+                    rasterVal: f.get("rasterVal")
+                }
+            });
             const fill = f.getStyle().fill_
             selected !== clickSelected && f.setStyle(hoverStyle(fill));
             return true;
@@ -94,7 +103,7 @@ export const createGeoJsonMap = (center, zoom, updateView) => {
             vectorLayer
         ],
         view: new View({
-            projection: 'EPSG:4326',
+            // projection: 'EPSG:4326',
             center,
             zoom
         })

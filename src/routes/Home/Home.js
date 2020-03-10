@@ -7,12 +7,12 @@ import { Map, Layout, Filters } from 'routes/components'
 const Home = () =>
     <Layout>
         <div className={classes.mapWrapper}>
-            <Map type='geojson' />
             <div className={classes.filters}>
                 <Filters />
             </div>
+            <Map type='geojson' />
+            {/*<Map type='tile' />*/}
         </div>
-        <div className={classes.timeline}>TIMELINE</div>
     </Layout>;
 
 export default Home;

@@ -4,7 +4,7 @@ import { AppBar, Loader } from 'routes/components';
 
 export const Layout = ({children}) =>
     <div style={{height: '100%'}}>
-        <AppBar />
+        {/*<AppBar />*/}
         <Loader />
         {children}
     </div>

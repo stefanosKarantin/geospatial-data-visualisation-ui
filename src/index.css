@@ -13,6 +13,10 @@ code {
     monospace;
 }
 
+.ol-zoom {
+    left: calc(100% - 50px) !important;
+ }
+
 .leaflet-container {
   min-height: 200px;
   height: 100%;

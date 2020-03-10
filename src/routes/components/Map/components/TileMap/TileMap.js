@@ -13,7 +13,7 @@ const createTileMap = (center, zoom) => {
     const map = new Map({
         target: "map",
         view: new View({
-            projection: 'EPSG:4326',
+            // projection: 'EPSG:4326',
             center,
             zoom
         }),
@@ -43,9 +43,9 @@ const createTileMap = (center, zoom) => {
 
 const TileMap = () => {
     useEffect(() => {
-        // const center = [2865777.02, 4190583.64];
-        const center = [25.743713, 35.196256]
-        const zoom = 5;
+        const center = [2851926.76, 4187217.11];
+        // const center = [25.743713, 35.196256]
+        const zoom = 8;
         createTileMap(center, zoom);
     }, [])
     return (

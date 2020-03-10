@@ -95,6 +95,10 @@ const selectedFeature = stateProp(({ app: { view: { selectedFeature } } }) => ({
     selectedFeature
 }));
 
+const hoveredFeature = stateProp(({ app: { view: { hoveredFeature } } }) => ({
+    hoveredFeature
+}));
+
 export {
   changeLocation,
   signIn,
@@ -112,5 +116,6 @@ export {
   isLoaderVisible,
   geodata,
   filters,
-  selectedFeature
+  selectedFeature,
+  hoveredFeature
 };

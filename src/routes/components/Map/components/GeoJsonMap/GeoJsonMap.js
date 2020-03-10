@@ -4,8 +4,8 @@ import _ from 'lodash';
 import 'ol/ol.css';
 import { Vector as LayerVector} from 'ol/layer';
 import GeoJSON from 'ol/format/GeoJSON';
-import { connectProps } from 'store';
 
+import { connectProps } from 'store';
 import { selectedFeature, updateView } from 'modules/component-props';
 import { rasterValStyle, createGeoJsonMap } from '../utils';
 
@@ -22,12 +22,14 @@ const GeoJsonMap = ({
     toggleLoadingTrue,
     getGeoData,
     selectedFeature,
-    updateView
+    updateView,
+    children
 }) => {
     useEffect(() => {
         toggleLoadingTrue();
         getGeoData();
-        const center = [25.743713, 35.196256];
+        // const center = [25.743713, 35.196256];
+        const center = [2851926.76, 4187217.11];
         const zoom = 11;
         createGeoJsonMap(center, zoom, updateView);
     }, [])
@@ -65,9 +67,9 @@ const GeoJsonMap = ({
         }
     }, [geodata, filters]);
     return (
-        <div style={{width: '100%'}}>
+        <div style={{width: '100%', position: 'relative'}}>
             <div style={{width: '100%', height: '100%'}} id={'map'} />
-            <span id={'status'} />
+             {children}
         </div>
     );
 }

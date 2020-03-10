@@ -1,16 +1,29 @@
-import React from 'react'
+import React from 'react';
+import _ from 'lodash';
+
+import { connectProps } from 'store';
+
+import { hoveredFeature } from 'modules/component-props';
 
 import {
     GeoJsonMap,
     TileMap,
+    MapPopup
 } from './components';
 
-export const Map = ({type}) => {
+const MapType = ({type, children}) => {
     switch(type) {
         case 'tile':
-            return <TileMap />;
+            return <TileMap>{children}</TileMap>;
         case 'geojson':
         default:
-            return <GeoJsonMap />;
+            return <GeoJsonMap>{children}</GeoJsonMap>;
     };
 };
+
+const Map = ({type, hoveredFeature}) =>
+    <MapType type={type}>
+        {!_.isEmpty(hoveredFeature) && <MapPopup info={hoveredFeature} />}
+    </MapType>;
+
+export default connectProps(hoveredFeature)(Map);

@@ -14,11 +14,12 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
-    borderBottom: '1px solid'
+    borderBottom: '1px solid',
+    zIndex: 1
   },
   mapWrapper: {
     display: 'flex',
-    height: 'calc(100% - 214px)'
+    height: 'calc(100% - 1px)'
   }
 };
 
