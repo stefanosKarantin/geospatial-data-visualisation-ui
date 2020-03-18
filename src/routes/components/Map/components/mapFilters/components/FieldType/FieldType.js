@@ -13,7 +13,7 @@ import { filters, updateFilters } from 'modules/component-props';
 
 import { classes } from './style';
 
-const Filters = ({ filters, updateFilters }) => {
+const FieldType = ({ filters, updateFilters }) => {
   const [state, setState] = React.useState({
     checked: true,
     value: 'all',
@@ -87,4 +87,4 @@ const Filters = ({ filters, updateFilters }) => {
   );
 };
 
-export default connectProps(filters, updateFilters)(Filters)
+export default connectProps(filters, updateFilters)(FieldType)

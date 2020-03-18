@@ -8,7 +8,8 @@ import { hoveredFeature } from 'modules/component-props';
 import {
     GeoJsonMap,
     TileMap,
-    MapPopup
+    MapPopup,
+    Filters
 } from './components';
 
 const MapType = ({type, children}) => {
@@ -23,6 +24,7 @@ const MapType = ({type, children}) => {
 
 const Map = ({type, hoveredFeature}) =>
     <MapType type={type}>
+        <Filters />
         {!_.isEmpty(hoveredFeature) && <MapPopup info={hoveredFeature} />}
     </MapType>;
 

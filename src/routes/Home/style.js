@@ -7,7 +7,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center'
   },
-  filters: {
+  sideBar: {
     backgroundColor: '#1d2346',
     width: '400px',
     display: 'flex',

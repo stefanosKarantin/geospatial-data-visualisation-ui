@@ -10,7 +10,8 @@ const styles = {
         boxShadow: '50px 50px 40px 0px rgba(0, 0, 0, 0.3)',
         width: '320px',
         height: '280px',
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        marginTop: '64px'
     },
     detailsWrapper: {
         margin: '160px 0 0 120px',
