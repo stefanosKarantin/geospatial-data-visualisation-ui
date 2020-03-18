@@ -23,19 +23,22 @@ const getPopover = (id, open, anchorEl, handleClose, component) =>
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
+        classes={{
+            paper: classes.popoverPaper
+        }}
         anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
         }}
         transformOrigin={{
-            vertical: 'top',
+            vertical: -10,
             horizontal: 'left',
         }}
     >
         {component}
     </Popover>;
 
-const Filters = ({ filters, updateFilters }) => {
+const Filters = ({ filters }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
@@ -47,16 +50,26 @@ const Filters = ({ filters, updateFilters }) => {
   };
 
   const open = Boolean(anchorEl);
-  console.log(anchorEl)
 
   return (
     <div className={classes.filtersWrapper}>
-        {Object.keys(contentFilters).map(f => (
-            <div className={classes.filter}>
-                <Button aria-describedby={open ? f : undefined} variant="contained" color="primary" onClick={handleClick}>
+        {Object.keys(contentFilters).map((f, index) => (
+            <div className={classes.filter} key={index}>
+                <Button
+                    aria-describedby={open ? f : undefined}
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClick}
+                >
                     {contentFilters[f].label}
                 </Button>
-                {getPopover(open ? f : undefined, open, anchorEl, handleClose, contentFilters[f].component)}
+                {getPopover(
+                    open ? f : undefined,
+                    open,
+                    anchorEl,
+                    handleClose,
+                    contentFilters[f].component
+                )}
             </div>
         ))}
     </div>

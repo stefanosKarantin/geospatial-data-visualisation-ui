@@ -41,7 +41,8 @@ const GeoJsonMap = ({
                 type: 'Feature',
                 properties: {
                     id: p[0],
-                    rasterVal: p[1]
+                    rasterVal: p[1],
+                    area: p[3]
                 },
                 geometry: JSON.parse(p[2]),
             }));

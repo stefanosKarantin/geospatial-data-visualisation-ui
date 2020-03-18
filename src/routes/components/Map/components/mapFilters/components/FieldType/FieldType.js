@@ -11,6 +11,8 @@ import { connectProps } from 'store';
 
 import { filters, updateFilters } from 'modules/component-props';
 
+import { colors } from 'routes/components/Map/components/utils';
+
 import { classes } from './style';
 
 const FieldType = ({ filters, updateFilters }) => {
@@ -56,7 +58,7 @@ const FieldType = ({ filters, updateFilters }) => {
                     onChange={handleChangeAll}
                     value={state.value}
                     classes={{
-                        root: classes.checkbox
+                        root: classes.checkbox,
                     }}
                 />}
                 classes={{
@@ -71,8 +73,8 @@ const FieldType = ({ filters, updateFilters }) => {
                         checked={filter.checked}
                         onChange={handleChangeFilters(filter.value)}
                         value={filter.value.toString()}
-                        classes={{
-                            root: classes.checkbox
+                        style={{
+                            color: colors[key]
                         }}
                     />}
                     classes={{

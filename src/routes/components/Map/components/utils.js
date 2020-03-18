@@ -4,7 +4,7 @@ import { Tile as TileLayer, Vector as LayerVector} from 'ol/layer';
 import { OSM, Vector as SourceVector} from 'ol/source';
 import { Style, Fill, Stroke}from 'ol/style';
 
-const colors = ["#E9967A", "#DAA520", "#800080", "#00008B", "#FF0000", "#BC8F8F", "#2F4F4F", "#FFE4C4", "#F4A460"]
+export const colors = ["#E9967A", "#DAA520", "#800080", "#00008B", "#FF0000", "#BC8F8F", "#55BADA", "#FFE4C4", "#F4A460"]
 
 const hoverStyle = fill => new Style({
     fill,
@@ -57,7 +57,8 @@ const addListeners = (map, updateView) => {
             updateView({
                 hoveredFeature: {
                     id: f.get("id"),
-                    rasterVal: f.get("rasterVal")
+                    rasterVal: f.get("rasterVal"),
+                    area: f.get("area")
                 }
             });
             const fill = f.getStyle().fill_
@@ -80,7 +81,8 @@ const addListeners = (map, updateView) => {
             updateView({
                 selectedFeature: {
                     id: f.get("id"),
-                    rasterVal: f.get("rasterVal")
+                    rasterVal: f.get("rasterVal"),
+                    area: f.get("area")
                 }
             });
             const fill = f.getStyle().fill_

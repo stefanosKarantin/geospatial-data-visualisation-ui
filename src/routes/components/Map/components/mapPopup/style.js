@@ -4,11 +4,11 @@ const styles = {
     popupWrapper: {
         color: 'white',
         position: 'absolute',
-        top: '-126px',
-        left: '-73px',
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        boxShadow: '50px 50px 40px 0px rgba(0, 0, 0, 0.3)',
-        width: '320px',
+        top: '-160px',
+        left: '-100px',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        boxShadow: '40px 40px 40px 10px rgba(0, 0, 0, 0.5)',
+        width: '360px',
         height: '280px',
         pointerEvents: 'none',
         marginTop: '64px'
