@@ -17,9 +17,9 @@ const MapPopup = ({info}) =>
                     </span>
                     <span
                         className={classes.detailValue}
-                        style={{color: k === 'rasterVal' ? colors[info[k]] : '#fff'}}
+                        style={{color: k === 'rasterVal' ? colors[info[k] - 1] : '#fff'}}
                     >
-                        {k === 'area' ? <span>{Math.round(info[k] * 100)/100 + ' m'}<sup>2</sup> </span> : info[k]}
+                        {k === 'area' ? <span>{info[k] + ' m'}<sup>2</sup> </span> : info[k]}
 
                     </span>
                 </div>

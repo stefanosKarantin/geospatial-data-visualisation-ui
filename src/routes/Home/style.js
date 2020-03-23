@@ -15,7 +15,9 @@ const styles = {
     justifyContent: 'center',
     height: '100%',
     borderBottom: '1px solid',
-    zIndex: 1
+    zIndex: 1,
+    position: 'relative',
+    overflow: 'hidden'
   },
   mapWrapper: {
     display: 'flex',
