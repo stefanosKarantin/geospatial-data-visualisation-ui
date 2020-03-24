@@ -10,7 +10,7 @@ const Home = () =>
             <div className={classes.sideBar}>
                 <DetailsDrawer />
             </div>
-            <Map type='geojson' />
+            <Map type='tile' />
             {/*<Map type='tile' />*/}
         </div>
     </Layout>;
