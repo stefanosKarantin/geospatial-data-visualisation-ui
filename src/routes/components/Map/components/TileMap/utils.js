@@ -1,13 +1,14 @@
 import 'ol/ol.css';
-import { Map, View } from 'ol';
-import { Tile as TileLayer, VectorTile as VectorLayerTile} from 'ol/layer';
+import { Map, View, Feature } from 'ol';
+import { Tile as TileLayer, VectorTile as VectorTileLayer} from 'ol/layer';
 import { OSM, VectorTile} from 'ol/source';
 import MVT from 'ol/format/MVT';
 import { Style, Stroke } from 'ol/style';
 import {
     hoverStyle,
     clickStyle,
-    rasterValStyle
+    rasterValStyle,
+    colors
 } from '../utils';
 
 const addListeners = (map, updateView) => {
@@ -24,17 +25,16 @@ const addListeners = (map, updateView) => {
         }
 
         map.forEachFeatureAtPixel(e.pixel, f => {
-            console.log(f)
             selected = f;
             updateView({
                 hoveredFeature: {
                     id: f.get("id"),
-                    rasterVal: f.get("rasterVal"),
+                    rasterVal: f.get("raster_val"),
                     area: Math.round(f.get("area") * 100)/100
                 }
             });
-            const fill = f.getStyle().fill_
-            selected !== clickSelected && f.setStyle(hoverStyle(fill));
+
+            selected !== clickSelected && f.setStyle(hoverStyle(f));
             return true;
         });
       });
@@ -55,14 +55,14 @@ const addListeners = (map, updateView) => {
             updateView({
                 selectedFeature: {
                     id: f.get("id"),
-                    rasterVal: f.get("rasterVal"),
+                    rasterVal: f.get("raster_val"),
                     area: Math.round(f.get("area") * 100)/100,
                     extent
                 }
             });
             map.getView().fit(extent, {maxZoom: 15, duration: 500})
-            const fill = f.getStyle().fill_
-            f.setStyle(clickStyle(fill));
+
+            f.setStyle(clickStyle(f));
             return true;
         });
       });
@@ -80,19 +80,14 @@ export const createTileMap = (center, zoom, updateView) => {
             new TileLayer({
                 source: new OSM()
             }),
-            new VectorLayerTile({
+            new VectorTileLayer({
                 source: new VectorTile({
-                    format: new MVT(),
-                    url: "http://localhost:5000/tiles/{z}/{x}/{y}.mvt"
+                    format: new MVT({
+                        featureClass: Feature
+                    }),
+                    url: "http://localhost:5000/tiles/{z}/{x}/{y}.pbf"
                 }),
-                style: function(feature, res) {
-                    return new Style({
-                        stroke: new Stroke({
-                            width: 3,
-                            color: 'red'
-                        })
-                    })
-                }
+                style: feature => rasterValStyle(feature)
             })
         ]
     });

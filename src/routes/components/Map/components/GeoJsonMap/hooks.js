@@ -45,7 +45,7 @@ export const filterFieldsHook = (geodata, filters) => {
                 if (layer instanceof LayerVector) {
                     layer.getSource().clear()
                     layer.getSource().addFeatures((new GeoJSON()).readFeatures(JSON.stringify(polygons)))
-                    layer.getSource().getFeatures().forEach(rasterValStyle)
+                    layer.getSource().getFeatures().forEach((f) => rasterValStyle(f, 'rasterVal'))
                 }
             });
         }

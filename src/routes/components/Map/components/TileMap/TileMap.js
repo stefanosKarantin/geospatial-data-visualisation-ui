@@ -20,15 +20,18 @@ import {
 
 import { createTileMap } from './utils.js';
 
-const TileMap = ({updateView}) => {
+const TileMap = ({updateView, children}) => {
     useEffect(() => {
-        const center = [2851926.76, 4187217.11];
+        const center = [2866926.76, 4187217.11];
         // const center = [25.743713, 35.196256]
-        const zoom = 8;
+        const zoom = 11;
         createTileMap(center, zoom, updateView);
     }, [])
     return (
-        <div style={{width: '100%'}} id={'map'} />
+        <div style={{width: '100%', position: 'relative'}}>
+            <div style={{width: '100%', height: '100%'}} id={'map'} />
+            {children}
+        </div>
     );
 }
 

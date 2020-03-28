@@ -5,6 +5,7 @@ import { Layout } from './Layout';
 import { NotificationBar } from './NotificationBar';
 import { Loader } from './Loader';
 import { DetailsDrawer } from './DetailsDrawer';
+import { SideBar } from './SideBar';
 
 export {
   AppBar,
@@ -13,5 +14,6 @@ export {
   Layout,
   NotificationBar,
   Loader,
-  DetailsDrawer
+  DetailsDrawer,
+  SideBar
 };

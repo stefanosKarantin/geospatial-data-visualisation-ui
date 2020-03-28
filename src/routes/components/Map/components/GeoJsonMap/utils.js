@@ -15,7 +15,7 @@ const addListeners = (map, updateView) => {
 
     map.on('pointermove', e => {
         if (selected !== null && selected !== clickSelected) {
-            rasterValStyle(selected);
+            rasterValStyle(selected, 'rasterVal');
             selected = null;
             updateView({
                 hoveredFeature: {}
@@ -31,15 +31,14 @@ const addListeners = (map, updateView) => {
                     area: Math.round(f.get("area") * 100)/100
                 }
             });
-            const fill = f.getStyle().fill_
-            selected !== clickSelected && f.setStyle(hoverStyle(fill));
+            selected !== clickSelected && f.setStyle(hoverStyle(f, 'rasterVal'));
             return true;
         });
       });
 
       map.on('click', e => {
         if (clickSelected !== null) {
-            rasterValStyle(clickSelected);
+            rasterValStyle(clickSelected, 'rasterVal');
             clickSelected = null;
             updateView({
                 selectedFeature: {}
@@ -59,8 +58,8 @@ const addListeners = (map, updateView) => {
                 }
             });
             map.getView().fit(extent, {maxZoom: 15, duration: 500})
-            const fill = f.getStyle().fill_
-            f.setStyle(clickStyle(fill));
+
+            f.setStyle(clickStyle(f, 'rasterVal'));
             return true;
         });
       });

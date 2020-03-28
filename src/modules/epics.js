@@ -141,7 +141,8 @@ const logoutEpic = action$ =>
                             : [
                                 toggleLoadingFalse()
                             ]
-                    })
+                    })//,
+                    // serverError(action$, refreshTokenSuccess, redirectionError, getNewAccessToken)
                 )
             )
         )
