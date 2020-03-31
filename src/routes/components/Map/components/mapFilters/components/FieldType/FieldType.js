@@ -74,7 +74,7 @@ const FieldType = ({ filters, updateFilters }) => {
                         onChange={handleChangeFilters(filter.value)}
                         value={filter.value.toString()}
                         style={{
-                            color: colors[key]
+                            color: colors[key - 1]
                         }}
                     />}
                     classes={{
