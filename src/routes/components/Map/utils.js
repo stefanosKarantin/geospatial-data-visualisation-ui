@@ -18,9 +18,9 @@ export const createMap = (center, zoom) => {
     const map = new Map({
         target: 'map',
         layers: [
-            new Tile({
-                source: new OSM()
-            })
+            // new Tile({
+            //     source: new OSM()
+            // })
         ],
         view: new View({
             center,
