@@ -19,6 +19,7 @@ import {
   register as registerAction,
   updateNotification as updateNotificationAction,
   getGeoData as getGeoDataAction,
+  getRegions as getRegionsAction,
   updateFilters as updateFiltersAction,
   updateView as updateViewAction
 } from './actions';
@@ -67,6 +68,10 @@ const getGeoData = actionProp((dispatch) =>({
     getGeoData: payload => { dispatch(getGeoDataAction(payload)) }
 }));
 
+const getRegions = actionProp((dispatch) =>({
+    getRegions: payload => { dispatch(getRegionsAction(payload)) }
+}));
+
 const updateFilters = actionProp((dispatch) =>({
     updateFilters: payload => { dispatch(updateFiltersAction(payload)) }
 }));
@@ -87,6 +92,10 @@ const geodata = stateProp(({ app: { geodata } }) => ({
     geodata
 }));
 
+const regions = stateProp(({ app: { regions } }) => ({
+    regions
+}));
+
 const filters = stateProp(({ app: { filters } }) => ({
     filters
 }));
@@ -97,6 +106,10 @@ const selectedFeature = stateProp(({ app: { view: { selectedFeature } } }) => ({
 
 const hoveredFeature = stateProp(({ app: { view: { hoveredFeature } } }) => ({
     hoveredFeature
+}));
+
+const selectedRegion = stateProp(({ app: { view: { selectedRegion } } }) => ({
+    selectedRegion
 }));
 
 export {
@@ -110,6 +123,7 @@ export {
   googleLogin,
   updateNotification,
   getGeoData,
+  getRegions,
   updateFilters,
   updateView,
   notification,
@@ -117,5 +131,7 @@ export {
   geodata,
   filters,
   selectedFeature,
-  hoveredFeature
+  hoveredFeature,
+  regions,
+  selectedRegion
 };

@@ -3,7 +3,7 @@ import { IconButton, Tooltip } from '@material-ui/core';
 
 import { connectProps} from 'store';
 
-import { DetailsDrawer } from 'routes/components';
+import { DetailsDrawer, RegionSelection } from 'routes/components';
 
 import { logout, toggleLoadingTrue } from 'modules/component-props';
 
@@ -25,6 +25,7 @@ const SideBar = ({logout, toggleLoadingTrue}) =>
                 <LogoutIcon className={classes.logoutIcon} />
             </IconButton>
         </Tooltip>
+        <RegionSelection />
         <DetailsDrawer />
     </div>;
 

@@ -5,6 +5,7 @@ import {
     toggleLoadingTrue,
     toggleLoadingFalse,
     updateGeoData,
+    updateRegions,
     updateFilters,
     updateView
 } from './actions';
@@ -15,6 +16,7 @@ let initialState = {
     },
     isLoaderVisible: false,
     geodata: {},
+    regions: {},
     filters: {},
     view: {}
 };
@@ -37,6 +39,10 @@ const reducer = handleActions({
     [updateGeoData.type]: (state, { payload }) => ({
         ...state,
         geodata: payload
+    }),
+    [updateRegions.type]: (state, { payload }) => ({
+        ...state,
+        regions: payload
     }),
     [updateFilters.type]: (state, { payload }) => ({
         ...state,

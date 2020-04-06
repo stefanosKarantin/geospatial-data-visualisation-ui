@@ -8,7 +8,7 @@ const Home = () =>
     <Layout>
         <div className={classes.mapWrapper}>
             <SideBar />
-            <Map type='tile' />
+            <Map featureType='tile' />
             {/*<Map type='tile' />*/}
         </div>
     </Layout>;

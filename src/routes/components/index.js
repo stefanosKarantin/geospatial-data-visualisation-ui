@@ -6,6 +6,7 @@ import { NotificationBar } from './NotificationBar';
 import { Loader } from './Loader';
 import { DetailsDrawer } from './DetailsDrawer';
 import { SideBar } from './SideBar';
+import { RegionSelection } from './RegionSelection';
 
 export {
   AppBar,
@@ -15,5 +16,6 @@ export {
   NotificationBar,
   Loader,
   DetailsDrawer,
-  SideBar
+  SideBar,
+  RegionSelection
 };

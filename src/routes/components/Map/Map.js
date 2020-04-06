@@ -3,29 +3,42 @@ import _ from 'lodash';
 
 import { connectProps } from 'store';
 
-import { hoveredFeature } from 'modules/component-props';
+import { hoveredFeature, toggleLoadingTrue, updateView, geodata, getGeoData } from 'modules/component-props';
+
+import { createMapHook } from './utils';
 
 import {
-    GeoJsonMap,
-    TileMap,
     MapPopup,
     Filters
 } from './components';
 
-const MapType = ({type, children}) => {
-    switch(type) {
+import {
+    Regions,
+    GeoJsonLayer,
+    TileLayer
+} from './layers';
+
+const FeatureLayer = ({featureType}) => {
+    switch(featureType) {
         case 'tile':
-            return <TileMap>{children}</TileMap>;
+            return <TileLayer />;
         case 'geojson':
         default:
-            return <GeoJsonMap>{children}</GeoJsonMap>;
+            return <GeoJsonLayer />;
     };
 };
 
-const Map = ({type, hoveredFeature}) =>
-    <MapType type={type}>
-        <Filters />
-        {!_.isEmpty(hoveredFeature) && <MapPopup info={hoveredFeature} />}
-    </MapType>;
+const Map = ({ featureType }) => {
+    createMapHook();
+    return (
+        <div style={{width: '100%', position: 'relative'}}>
+            <div style={{width: '100%', height: '100%'}} id={'map'} />
+            <Regions />
+            <Filters />
+            <FeatureLayer featureType={featureType} />
+            <MapPopup />
+        </div>
+    );
+}
 
-export default connectProps(hoveredFeature)(Map);
+export default connectProps()(Map);

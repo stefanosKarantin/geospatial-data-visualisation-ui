@@ -25,3 +25,5 @@ export const registerService = postService('/auth/register', false);
 export const refreshTokenService = postService('/auth/refresh', false);
 
 export const fetchGeoJson = postService('/geo/getcretandata', true);
+
+export const fetchRegions = postService('/geo/regions', true);

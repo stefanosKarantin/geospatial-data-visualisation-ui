@@ -50,7 +50,8 @@ import {
     logoutService,
     registerService,
     refreshTokenService,
-    fetchGeoJson
+    fetchGeoJson,
+    fetchRegions
 } from 'model-services';
 
 import {
@@ -66,6 +67,8 @@ import {
     updateNotification,
     getGeoData,
     updateGeoData,
+    getRegions,
+    updateRegions,
     updateFilters
 } from './actions';
 
@@ -256,6 +259,19 @@ const getGeoJsonEpic = action$ =>
             )
         );
 
+const getRegionsEpic = action$ =>
+    action$.ofType(getRegions.type)
+        .pipe(
+            mergeMap(_ =>
+                observableFrom(fetchRegions())
+                    .pipe(
+                        mergeMap(({data}) => ([
+                            updateRegions(data.regions),
+                            toggleLoadingFalse()
+                        ]))
+                    )
+            )
+        );
 const homeEpic = combineEpics(
   redirectionErrorEpic,
   signInEpic,
@@ -263,7 +279,8 @@ const homeEpic = combineEpics(
   registerEpic,
   googleLoginEpic,
   getNewAccessTokenEpic,
-  getGeoJsonEpic
+  getGeoJsonEpic,
+  getRegionsEpic
 );
 
  export default homeEpic;

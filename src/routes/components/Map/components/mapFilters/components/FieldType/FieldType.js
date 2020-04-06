@@ -11,9 +11,10 @@ import { connectProps } from 'store';
 
 import { filters, updateFilters } from 'modules/component-props';
 
-import { colors } from 'routes/components/Map/components/utils';
 
 import { classes } from './style';
+
+const colors = ["#E9967A", "#DAA520", "#800080", "#00008B", "#FF0000", "#BC8F8F", "#55BADA", "#FFE4C4", "#F4A460"];
 
 const FieldType = ({ filters, updateFilters }) => {
   const [state, setState] = React.useState({

@@ -20,7 +20,8 @@ import {
   logoutService,
   registerService,
   refreshTokenService,
-  fetchGeoJson
+  fetchGeoJson,
+  fetchRegions
 } from './services';
 
 export {
@@ -46,5 +47,6 @@ export {
   logoutService,
   registerService,
   refreshTokenService,
-  fetchGeoJson
+  fetchGeoJson,
+  fetchRegions
 };
