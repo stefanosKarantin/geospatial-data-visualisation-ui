@@ -14,7 +14,7 @@ import { addListeners } from './listeners';
 
 const TileLayer = ({ updateView }) => {
     componentDidMount(() => {
-        setTimeout(() => {
+        // setTimeout(() => {
             const map = document.getElementById('map').data;
             const tileLayer = new VectorTileLayer({
                 source: new VectorTile({
@@ -30,7 +30,7 @@ const TileLayer = ({ updateView }) => {
 
             map.addLayer(tileLayer);
             addListeners(map, updateView);
-        }, 100)
+        // }, 500)
     });
     return (
         <div />

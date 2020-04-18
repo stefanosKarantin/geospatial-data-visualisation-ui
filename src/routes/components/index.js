@@ -1,5 +1,10 @@
 import { AppBar } from './AppBar';
-import { Map } from './Map';
+import {
+    Map,
+    Regions,
+    GeoJsonLayer,
+    TileLayer
+} from './Map';
 import { PrivateRoute } from './PrivateRoute';
 import { Layout } from './Layout';
 import { NotificationBar } from './NotificationBar';
@@ -11,6 +16,9 @@ import { RegionSelection } from './RegionSelection';
 export {
   AppBar,
   Map,
+  Regions,
+  GeoJsonLayer,
+  TileLayer,
   PrivateRoute,
   Layout,
   NotificationBar,

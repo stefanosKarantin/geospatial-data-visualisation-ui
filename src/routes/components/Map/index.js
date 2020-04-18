@@ -1,3 +1,13 @@
 import Map from './Map';
+import {
+    Regions,
+    GeoJsonLayer,
+    TileLayer
+} from './layers';
 
-export { Map };
+export {
+    Regions,
+    GeoJsonLayer,
+    TileLayer,
+    Map
+};

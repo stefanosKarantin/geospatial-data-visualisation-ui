@@ -26,10 +26,10 @@ const middleware = [
 
 const enhancers = [];
 
-console.log(process.env.NODE_ENV);
-if (process.env.NODE_ENV === "development") {
-  window.__REDUX_DEVTOOLS_EXTENSION__ && enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__());
-}
+// console.log(process.env.NODE_ENV);
+// if (process.env.NODE_ENV === "development") {
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__());
+// }
 
 const store = createStore(
   appReducer(history),

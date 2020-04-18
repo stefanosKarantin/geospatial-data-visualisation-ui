@@ -46,6 +46,7 @@ const Regions = ({ getRegions, toggleLoadingTrue, regions, updateView }) => {
             vectorLayer.on('pointermove', e => {
                 console.log(e)
             })
+            console.log(map)
             addListeners(map, updateView);
             map.addLayer(vectorLayer)
         }

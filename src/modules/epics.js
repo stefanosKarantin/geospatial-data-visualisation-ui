@@ -88,40 +88,39 @@ const redirectionErrorEpic = action$ =>
 
 const signInEpic = (action$) =>
   action$.ofType(signIn.type)
-  .pipe(
-    mergeMap(action => observableDefer(_ => signInService(action.payload))
-      .pipe(
-        mergeMap((data) => {
-
-          if (data.data.success) {
-            updateToken(data.data.auth_token);
-            updateRefreshToken(data.data.auth_refresh_token);
-            updateUser(data.data.email);
-          };
-          return data.data.success
-            ? [
-              push('/dashboard'),
-              updateStateUser({
-                token: data.data.auth_token,
-                refreshToken: data.data.auth_refresh_token,
-                info: data.user
-              }),
-              reset('loginForm'),
-              toggleLoadingFalse()
-            ]
-            : [
-              setSubmitFailed('loginForm'),
-              resetSection('loginForm', 'password'),
-              stopSubmit('loginForm', {
-                _error: data.data.message,
-              }),
-              toggleLoadingFalse()
-            ]
-        }),
-        serverError(action$, refreshTokenSuccess, redirectionError, getNewAccessToken)
-      )
-    ),
-  );
+    .pipe(
+        mergeMap(action => observableDefer(_ => signInService(action.payload))
+            .pipe(
+                mergeMap((data) => {
+                if (data.data.success) {
+                    updateToken(data.data.auth_token);
+                    updateRefreshToken(data.data.auth_refresh_token);
+                    updateUser(data.data.email);
+                };
+                return data.data.success
+                    ? [
+                        updateStateUser({
+                            token: data.data.auth_token,
+                            refreshToken: data.data.auth_refresh_token,
+                            info: data.user
+                        }),
+                        reset('loginForm'),
+                        toggleLoadingFalse(),
+                        push('/dashboard')
+                    ]
+                    : [
+                        setSubmitFailed('loginForm'),
+                        resetSection('loginForm', 'password'),
+                        stopSubmit('loginForm', {
+                            _error: data.data.message,
+                        }),
+                        toggleLoadingFalse()
+                    ]
+                }),
+                serverError(action$, refreshTokenSuccess, redirectionError, getNewAccessToken)
+            )
+        ),
+    );
 
 const logoutEpic = action$ =>
     action$.ofType(logout.type)
@@ -144,8 +143,8 @@ const logoutEpic = action$ =>
                             : [
                                 toggleLoadingFalse()
                             ]
-                    })//,
-                    // serverError(action$, refreshTokenSuccess, redirectionError, getNewAccessToken)
+                    }),
+                    serverError(action$, refreshTokenSuccess, redirectionError, getNewAccessToken)
                 )
             )
         )

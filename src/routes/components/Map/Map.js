@@ -12,30 +12,13 @@ import {
     Filters
 } from './components';
 
-import {
-    Regions,
-    GeoJsonLayer,
-    TileLayer
-} from './layers';
 
-const FeatureLayer = ({featureType}) => {
-    switch(featureType) {
-        case 'tile':
-            return <TileLayer />;
-        case 'geojson':
-        default:
-            return <GeoJsonLayer />;
-    };
-};
-
-const Map = ({ featureType }) => {
+const Map = () => {
     createMapHook();
     return (
         <div style={{width: '100%', position: 'relative'}}>
             <div style={{width: '100%', height: '100%'}} id={'map'} />
-            <Regions />
             <Filters />
-            <FeatureLayer featureType={featureType} />
             <MapPopup />
         </div>
     );
