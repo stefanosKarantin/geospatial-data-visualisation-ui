@@ -14,7 +14,7 @@ const styles = {
         fontSize: '24px'
     },
     active: {
-        bottom: '-120px'
+        bottom: '-160px'
     }
 };
 

@@ -18,11 +18,11 @@ const RegionSelection = ({regions, selectedFeature, updateView}) => {
     const handleChange = e => {
         const map = document.getElementById('map').data;
         const region = e.target.value;
-
+        console.log(e)
         map.getLayers().getArray().map(l => {
             if (l instanceof LayerVector) {
                 const features = l.getSource().getFeatures()
-                const f = _.find(features, f => f.get('id') === region.id)
+                const f = _.find(features, f => f.get('name') === region)
                 // clickSelected = f;
 
                 const extent = f.getGeometry().getExtent();
@@ -34,11 +34,12 @@ const RegionSelection = ({regions, selectedFeature, updateView}) => {
             }
         });
 
+        const r = _.find(regions, r => r[0] === region)
         updateView({
             selectedFeature: {
-                id: region.id,
-                name: region.name,
-                area: Math.round(region.area * 100)/100
+                id: r[1],
+                name: r[0],
+                area: Math.round(r[3] * 100)/100
             }
         })
     }
@@ -46,19 +47,15 @@ const RegionSelection = ({regions, selectedFeature, updateView}) => {
         <FormControl variant="outlined" className={classes.regionSelection}>
             {regions && !_.isEmpty(regions) &&
                 <div>
-                    <InputLabel>{'Περιφέρεια'}</InputLabel>
+                    <InputLabel classes={{root: classes.inputLabel}}>{'Περιφέρεια'}</InputLabel>
                     <Select
-                        value={selectedFeature || ''}
+                        value={selectedFeature ? selectedFeature.name : ''}
                         onChange={handleChange}
                         label="Περιφέρεια"
                         className={classes.selection}
                     >
                         {regions.map((r, index) => (
-                            <MenuItem key={index} value={{
-                                id: r[1],
-                                name: r[0],
-                                area: Math.round(r[3] * 100)/100
-                            }}>{r[0]}</MenuItem>
+                            <MenuItem key={index} value={r[0]}>{r[0]}</MenuItem>
                         ))}
                     </Select>
                 </div>
