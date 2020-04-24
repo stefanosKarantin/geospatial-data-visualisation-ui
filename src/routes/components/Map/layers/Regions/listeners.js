@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import { Vector as LayerVector} from 'ol/layer';
+
 import {
     hoverStyle,
     clickStyle,
@@ -5,20 +8,20 @@ import {
 } from './style';
 
 export const addListeners = (map, updateView) => {
-    let selected = null;
+    let hoverSelected = null;
     let clickSelected = null;
 
     map.on('pointermove', e => {
-        if (selected !== null && selected !== clickSelected) {
-            regionStyle(selected);
-            selected = null;
+        if (hoverSelected !== null && hoverSelected !== clickSelected) {
+            !(hoverSelected.get('state') === 'selected') && regionStyle(hoverSelected);
+            hoverSelected = null;
             updateView({
                 hoveredFeature: {}
             });
         }
         // console.log(map.getView().getZoom())
         map.forEachFeatureAtPixel(e.pixel, f => {
-            selected = f;
+            hoverSelected = f;
             updateView({
                 hoveredFeature: {
                     id: f.get("id"),
@@ -27,15 +30,25 @@ export const addListeners = (map, updateView) => {
                 }
             });
 
-            selected !== clickSelected && f.setStyle(hoverStyle(f));
+            hoverSelected !== clickSelected && f.setStyle(hoverStyle(f));
             return true;
         });
       });
 
     map.on('click', e => {
-        console.log(e)
+        map.getLayers().getArray().map(l => {
+            if (l instanceof LayerVector) {
+                const features = l.getSource().getFeatures()
+                const f = _.find(features, f => f.get('state') === 'selected')
+                console.log(f)
+                clickSelected = f || clickSelected;
+                return true;
+            }
+        });
         if (clickSelected !== null) {
+            console.log(clickSelected)
             regionStyle(clickSelected);
+            clickSelected.set('state', 'deselected')
             clickSelected = null;
             updateView({
                 selectedFeature: {}
@@ -43,6 +56,7 @@ export const addListeners = (map, updateView) => {
         }
 
         map.forEachFeatureAtPixel(e.pixel, f => {
+            f.set('state', 'selected');
             clickSelected = f;
 
             const extent = f.getGeometry().getExtent();

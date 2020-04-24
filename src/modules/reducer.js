@@ -18,7 +18,9 @@ let initialState = {
     geodata: {},
     regions: {},
     filters: {},
-    view: {}
+    view: {
+        selectedFeature: {}
+    }
 };
 
 const reducer = handleActions({

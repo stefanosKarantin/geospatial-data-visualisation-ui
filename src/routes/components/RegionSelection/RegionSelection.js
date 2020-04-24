@@ -23,13 +23,15 @@ const RegionSelection = ({regions, selectedFeature, updateView}) => {
             if (l instanceof LayerVector) {
                 const features = l.getSource().getFeatures()
                 const f = _.find(features, f => f.get('name') === region)
-                // clickSelected = f;
 
                 const extent = f.getGeometry().getExtent();
 
                 map.getView().fit(extent, {maxZoom: 15, duration: 500})
-
+                const selectedOld = _.find(features, f => f.get('name') === selectedFeature.name)
+                f.get('name') !== selectedFeature.name && selectedOld && selectedOld.setStyle(regionStyle(selectedOld)) && selectedOld.set('state', 'deselected');
                 f.setStyle(clickStyle(f));
+                console.log(f)
+                f.set('state', 'selected');
                 return true;
             }
         });
@@ -49,7 +51,7 @@ const RegionSelection = ({regions, selectedFeature, updateView}) => {
                 <div>
                     <InputLabel classes={{root: classes.inputLabel}}>{'Περιφέρεια'}</InputLabel>
                     <Select
-                        value={selectedFeature ? selectedFeature.name : ''}
+                        value={selectedFeature ? selectedFeature.name || '' : ''}
                         onChange={handleChange}
                         label="Περιφέρεια"
                         className={classes.selection}
