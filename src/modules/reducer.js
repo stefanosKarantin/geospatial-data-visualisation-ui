@@ -19,7 +19,8 @@ let initialState = {
     regions: {},
     filters: {},
     view: {
-        selectedFeature: {}
+        regionsView: {},
+        fieldsView: {}
     }
 };
 

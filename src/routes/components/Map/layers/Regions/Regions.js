@@ -5,12 +5,12 @@ import { Vector as SourceVector} from 'ol/source';
 
 import { connectProps } from 'store';
 import { componentDidMount, componentDidUpdate } from 'hooks';
-import { getRegions, toggleLoadingTrue, regions, updateView } from 'modules/component-props';
+import { getRegions, toggleLoadingTrue, regions, regionsView, updateView } from 'modules/component-props';
 
 import { regionStyle } from './style';
 import { addListeners } from './listeners';
 
-const Regions = ({ getRegions, toggleLoadingTrue, regions, updateView }) => {
+const Regions = ({ getRegions, toggleLoadingTrue, regions, regionsView, updateView }) => {
     componentDidMount(() => {
         toggleLoadingTrue();
         getRegions();
@@ -40,7 +40,7 @@ const Regions = ({ getRegions, toggleLoadingTrue, regions, updateView }) => {
                 source: vectorSource,
                 style: feature => regionStyle(feature),
                 zIndex: 2,
-                className: 'regionLayer',
+                className: 'regions',
 
             });
             vectorLayer.on('pointermove', e => {
@@ -56,4 +56,4 @@ const Regions = ({ getRegions, toggleLoadingTrue, regions, updateView }) => {
     );
 };
 
-export default connectProps(getRegions, toggleLoadingTrue, regions, updateView)(Regions)
+export default connectProps(getRegions, toggleLoadingTrue, regions, regionsView, updateView)(Regions)

@@ -100,38 +100,33 @@ const filters = stateProp(({ app: { filters } }) => ({
     filters
 }));
 
-const selectedFeature = stateProp(({ app: { view: { selectedFeature } } }) => ({
-    selectedFeature
+const regionsView = stateProp(({ app: { view: { regionsView } } }) => ({
+    regionsView
 }));
 
-const hoveredFeature = stateProp(({ app: { view: { hoveredFeature } } }) => ({
-    hoveredFeature
-}));
-
-const selectedRegion = stateProp(({ app: { view: { selectedRegion } } }) => ({
-    selectedRegion
+const fieldsView = stateProp(({ app: { view: { fieldsView } } }) => ({
+    fieldsView
 }));
 
 export {
-  changeLocation,
-  signIn,
-  logout,
-  register,
-  toggleLoadingTrue,
-  toggleLoadingFalse,
-  resetState,
-  googleLogin,
-  updateNotification,
-  getGeoData,
-  getRegions,
-  updateFilters,
-  updateView,
-  notification,
-  isLoaderVisible,
-  geodata,
-  filters,
-  selectedFeature,
-  hoveredFeature,
-  regions,
-  selectedRegion
+    changeLocation,
+    signIn,
+    logout,
+    register,
+    toggleLoadingTrue,
+    toggleLoadingFalse,
+    resetState,
+    googleLogin,
+    updateNotification,
+    getGeoData,
+    getRegions,
+    updateFilters,
+    updateView,
+    notification,
+    isLoaderVisible,
+    geodata,
+    filters,
+    regions,
+    regionsView,
+    fieldsView
 };

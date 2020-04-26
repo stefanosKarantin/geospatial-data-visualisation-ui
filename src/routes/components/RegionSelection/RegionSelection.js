@@ -9,39 +9,41 @@ import Select from '@material-ui/core/Select';
 
 import { connectProps } from 'store';
 
-import { regions, selectedFeature, updateView } from 'modules/component-props';
+import { regions, regionsView, updateView } from 'modules/component-props';
 import { regionStyle, clickStyle } from 'routes/components/Map/layers/Regions/style';
 
 import { classes } from './style';
 
-const RegionSelection = ({regions, selectedFeature, updateView}) => {
+const RegionSelection = ({regions, regionsView, updateView}) => {
     const handleChange = e => {
         const map = document.getElementById('map').data;
         const region = e.target.value;
-        console.log(e)
-        map.getLayers().getArray().map(l => {
-            if (l instanceof LayerVector) {
-                const features = l.getSource().getFeatures()
-                const f = _.find(features, f => f.get('name') === region)
 
-                const extent = f.getGeometry().getExtent();
+        // map.getLayers().getArray().map(l => {
+        //     if (l instanceof LayerVector) {
+        //         const features = l.getSource().getFeatures()
+        //         const f = _.find(features, f => f.get('name') === region)
 
-                map.getView().fit(extent, {maxZoom: 15, duration: 500})
-                const selectedOld = _.find(features, f => f.get('name') === selectedFeature.name)
-                f.get('name') !== selectedFeature.name && selectedOld && selectedOld.setStyle(regionStyle(selectedOld)) && selectedOld.set('state', 'deselected');
-                f.setStyle(clickStyle(f));
-                console.log(f)
-                f.set('state', 'selected');
-                return true;
-            }
-        });
+        //         const extent = f.getGeometry().getExtent();
+
+        //         map.getView().fit(extent, {maxZoom: 15, duration: 500})
+        //         const selectedOld = _.find(features, f => f.get('name') === selectedFeature.name)
+        //         f.get('name') !== selectedFeature.name && selectedOld && selectedOld.setStyle(regionStyle(selectedOld)) && selectedOld.set('state', 'deselected');
+        //         f.setStyle(clickStyle(f));
+
+        //         f.set('state', 'selected');
+        //         return true;
+        //     }
+        // });
 
         const r = _.find(regions, r => r[0] === region)
         updateView({
-            selectedFeature: {
-                id: r[1],
-                name: r[0],
-                area: Math.round(r[3] * 100)/100
+            regionsView: {
+                selected: {
+                    id: r[1],
+                    name: r[0],
+                    area: Math.round(r[3] * 100)/100
+                }
             }
         })
     }
@@ -51,7 +53,7 @@ const RegionSelection = ({regions, selectedFeature, updateView}) => {
                 <div>
                     <InputLabel classes={{root: classes.inputLabel}}>{'Περιφέρεια'}</InputLabel>
                     <Select
-                        value={selectedFeature ? selectedFeature.name || '' : ''}
+                        value={regionsView.selected ? regionsView.selected.name || '' : ''}
                         onChange={handleChange}
                         label="Περιφέρεια"
                         className={classes.selection}
@@ -65,4 +67,4 @@ const RegionSelection = ({regions, selectedFeature, updateView}) => {
         </FormControl>
       )
 }
-export default connectProps(regions, selectedFeature, updateView)(RegionSelection)
+export default connectProps(regions, regionsView, updateView)(RegionSelection)

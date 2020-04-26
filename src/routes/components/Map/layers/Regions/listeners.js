@@ -7,72 +7,77 @@ import {
     regionStyle
 } from './style';
 
-export const addListeners = (map, updateView) => {
-    let hoverSelected = null;
-    let clickSelected = null;
+export const addListeners = (map, updateView, layer, featureModel ) => {
+    // let hoverSelected = null;
+    // let clickSelected = null;
 
     map.on('pointermove', e => {
-        if (hoverSelected !== null && hoverSelected !== clickSelected) {
-            !(hoverSelected.get('state') === 'selected') && regionStyle(hoverSelected);
-            hoverSelected = null;
-            updateView({
-                hoveredFeature: {}
-            });
-        }
+    //     if (hoverSelected !== null && hoverSelected !== clickSelected) {
+    //         !(hoverSelected.get('state') === 'selected') && regionStyle(hoverSelected);
+    //         hoverSelected = null;
+    //         updateView({
+    //             hoveredFeature: {}
+    //         });
+    //     }
         // console.log(map.getView().getZoom())
         map.forEachFeatureAtPixel(e.pixel, f => {
-            hoverSelected = f;
+            // hoverSelected = f;
+            if (!(f.get('state') === 'hovered' || f.get('state') === 'selected'))
             updateView({
-                hoveredFeature: {
-                    id: f.get("id"),
-                    name: f.get("name"),
-                    area: Math.round(f.get("area") * 100)/100
+                [`${layer}View`]: {
+                    hovered: featureModel
                 }
+                    // id: f.get("id"),
+                    // name: f.get("name"),
+                    // area: Math.round(f.get("area") * 100)/100
+                
             });
-
-            hoverSelected !== clickSelected && f.setStyle(hoverStyle(f));
+            f.set
+            // hoverSelected !== clickSelected && f.setStyle(hoverStyle(f));
             return true;
+        }, {
+            layerFilter: fc => fc.getClassName === 'region'
         });
-      });
+    });
 
     map.on('click', e => {
-        map.getLayers().getArray().map(l => {
-            if (l instanceof LayerVector) {
-                const features = l.getSource().getFeatures()
-                const f = _.find(features, f => f.get('state') === 'selected')
-                console.log(f)
-                clickSelected = f || clickSelected;
-                return true;
-            }
-        });
-        if (clickSelected !== null) {
-            console.log(clickSelected)
-            regionStyle(clickSelected);
-            clickSelected.set('state', 'deselected')
-            clickSelected = null;
-            updateView({
-                selectedFeature: {}
-            });
-        }
+        // map.getLayers().getArray().map(l => {
+        //     if (l instanceof LayerVector) {
+        //         const features = l.getSource().getFeatures()
+        //         const f = _.find(features, f => f.get('state') === 'selected')
+        //         console.log(f)
+        //         clickSelected = f || clickSelected;
+        //         return true;
+        //     }
+        // });
+        // if (clickSelected !== null) {
+        //     console.log(clickSelected)
+        //     regionStyle(clickSelected);
+        //     clickSelected.set('state', 'deselected')
+        //     clickSelected = null;
+        //     updateView({
+        //         selectedFeature: {}
+        //     });
+        // }
 
-        map.forEachFeatureAtPixel(e.pixel, f => {
-            f.set('state', 'selected');
-            clickSelected = f;
+        // map.forEachFeatureAtPixel(e.pixel, f => {
+        //     f.set('state', 'selected');
+        //     clickSelected = f;
 
-            const extent = f.getGeometry().getExtent();
-            updateView({
-                selectedFeature: {
-                    id: f.get("id"),
-                    name: f.get("name"),
-                    area: Math.round(f.get("area") * 100)/100,
-                    extent
-                }
-            });
+        //     const extent = f.getGeometry().getExtent();
+        //     updateView({
+        //         selectedFeature: {
+        //             id: f.get("id"),
+        //             name: f.get("name"),
+        //             area: Math.round(f.get("area") * 100)/100,
+        //             extent
+        //         }
+        //     });
 
-            map.getView().fit(extent, {maxZoom: 15, duration: 500})
+        //     map.getView().fit(extent, {maxZoom: 15, duration: 500})
 
-            f.setStyle(clickStyle(f));
-            return true;
-        });
+        //     f.setStyle(clickStyle(f));
+        //     return true;
+        // });
     });
 };

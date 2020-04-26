@@ -14,23 +14,21 @@ import { addListeners } from './listeners';
 
 const TileLayer = ({ updateView }) => {
     componentDidMount(() => {
-        // setTimeout(() => {
-            const map = document.getElementById('map').data;
-            const tileLayer = new VectorTileLayer({
-                source: new VectorTile({
-                    format: new MVT({
-                        featureClass: Feature
-                    }),
-                    url: "http://localhost:5000/tiles/{z}/{x}/{y}.pbf"
+        const map = document.getElementById('map').data;
+        const tileLayer = new VectorTileLayer({
+            source: new VectorTile({
+                format: new MVT({
+                    featureClass: Feature
                 }),
-                style: feature => rasterValStyle(feature),
-                zIndex: 3,
-                className: 'tiles'
-            });
+                url: "http://localhost:5000/tiles/{z}/{x}/{y}.pbf"
+            }),
+            style: feature => rasterValStyle(feature),
+            zIndex: 3,
+            className: 'fields'
+        });
 
-            map.addLayer(tileLayer);
-            addListeners(map, updateView);
-        // }, 500)
+        map.addLayer(tileLayer);
+        addListeners(map, updateView);
     });
     return (
         <div />
