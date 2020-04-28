@@ -1,69 +1,47 @@
+import { pointerMove } from 'ol/events/condition';
+import Select from 'ol/interaction/Select';
+
 import {
     hoverStyle,
     clickStyle,
-    rasterValStyle,
-    colors
+    regionStyle
 } from './style';
 
-export const addListeners = (map, updateView) => {
-    let selected = null;
-    let clickSelected = null;
+const selectSingleClick = new Select({
+    layers: l => l.getClassName() === 'fields',
+    style: clickStyle
+});
 
-    map.on('pointermove', e => {
-        if (selected !== null && selected !== clickSelected) {
-            rasterValStyle(selected);
-            selected = null;
-            updateView({
-                hoveredFeature: {}
-            });
-        }
-        // console.log(map.getView().getZoom())
-        map.forEachFeatureAtPixel(e.pixel, f => {
-            if (f.get("raster_val")) {
-                selected = f;
-                updateView({
-                    hoveredFeature: {
-                        id: f.get("id"),
-                        rasterVal: f.get("raster_val"),
-                        area: Math.round(f.get("area") * 100)/100
-                    }
-                });
+const  selectPointerMove = new Select({
+    condition: pointerMove,
+    layers: l => l.getClassName() === 'fields',
+    style: hoverStyle
+});
 
-                selected !== clickSelected && f.setStyle(hoverStyle(f));
-                return true;
-            }
-            return false;
+export const addListeners = (map, updateView, layer, featureModel ) => {
+    
+    map.addInteraction(selectPointerMove);
+    map.addInteraction(selectSingleClick);
+
+    selectPointerMove.on('select', function(e) {
+        const feature = e.selected[0]
+        updateView({
+            hovered: feature ? featureModel(feature) : {}
         });
-      });
+    });
 
-      map.on('click', e => {
-        if (clickSelected !== null) {
-            rasterValStyle(clickSelected);
-            clickSelected = null;
-            updateView({
-                selectedFeature: {}
-            });
-        }
-
-        map.forEachFeatureAtPixel(e.pixel, f => {
-            if (f.get("raster_val")) {
-                clickSelected = f;
-
-                const extent = f.getGeometry().getExtent();
-                updateView({
-                    selectedFeature: {
-                        id: f.get("id"),
-                        rasterVal: f.get("raster_val"),
-                        area: Math.round(f.get("area") * 100)/100,
-                        extent
-                    }
-                });
-                map.getView().fit(extent, {maxZoom: 15, duration: 500})
-
-                f.setStyle(clickStyle(f));
-                return true;
+    selectSingleClick.on('select', function(e) {
+        const feature = e.selected[0]
+        feature && map.getView().fit(
+            feature.getGeometry().getExtent(),
+            {
+                maxZoom: 15,
+                duration: 500
             }
-            return false;
+        )
+
+        updateView({
+            selected: feature ? featureModel(feature) : {}
         });
-      });
+    });
 };

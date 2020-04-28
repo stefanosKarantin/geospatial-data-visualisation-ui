@@ -7,12 +7,18 @@ import MVT from 'ol/format/MVT';
 
 import { connectProps } from 'store';
 import { componentDidMount } from 'hooks';
-import { updateView } from 'modules/component-props';
+import { updateFieldsView } from 'modules/component-props';
 
 import { rasterValStyle } from './style';
 import { addListeners } from './listeners';
 
-const TileLayer = ({ updateView }) => {
+const fieldModel = f => ({
+    id: f.get("id"),
+    rasterVal: f.get("raster_val"),
+    area: Math.round(f.get("area") * 100)/100
+});
+
+const TileLayer = ({ updateFieldsView }) => {
     componentDidMount(() => {
         const map = document.getElementById('map').data;
         const tileLayer = new VectorTileLayer({
@@ -28,11 +34,11 @@ const TileLayer = ({ updateView }) => {
         });
 
         map.addLayer(tileLayer);
-        addListeners(map, updateView);
+        addListeners(map, updateFieldsView, 'fields', fieldModel);
     });
     return (
         <div />
-    )
+    );
 };
 
-export default connectProps(updateView)(TileLayer)
+export default connectProps(updateFieldsView)(TileLayer)

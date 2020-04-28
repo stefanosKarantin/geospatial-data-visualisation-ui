@@ -48,27 +48,30 @@ const updateRegions = rootAction('UPDATE_REGIONS');
 
 const updateFilters = rootAction('UPDATE_FILTERS');
 
-const updateView = rootAction('UPDATE_VIEW');
+const updateFieldsView = rootAction('UPDATE_VIEW');
+
+const updateRegionsView = rootAction('UPDATE_VIEW');
 /////////////////////////////////////
 
 
 export {
-    signIn,
-    register,
-    logout,
-    toggleLoadingTrue,
-    toggleLoadingFalse,
-    resetState,
-    googleLogin,
-    getNewAccessToken,
-    redirectionError,
-    refreshTokenSuccess,
-    updateStateUser,
-    updateNotification,
-    getGeoData,
-    updateGeoData,
-    getRegions,
-    updateRegions,
-    updateFilters,
-    updateView
+  signIn,
+  register,
+  logout,
+  toggleLoadingTrue,
+  toggleLoadingFalse,
+  resetState,
+  googleLogin,
+  getNewAccessToken,
+  redirectionError,
+  refreshTokenSuccess,
+  updateStateUser,
+  updateNotification,
+  getGeoData,
+  updateGeoData,
+  getRegions,
+  updateRegions,
+  updateFilters,
+  updateFieldsView,
+  updateRegionsView
 };

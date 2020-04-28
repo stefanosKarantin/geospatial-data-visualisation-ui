@@ -21,7 +21,8 @@ import {
   getGeoData as getGeoDataAction,
   getRegions as getRegionsAction,
   updateFilters as updateFiltersAction,
-  updateView as updateViewAction
+  updateFieldsView as updateFieldsViewAction,
+  updateRegionsView as updateRegionsViewAction
 } from './actions';
 
 /////////////////////////////////
@@ -76,8 +77,12 @@ const updateFilters = actionProp((dispatch) =>({
     updateFilters: payload => { dispatch(updateFiltersAction(payload)) }
 }));
 
-const updateView = actionProp((dispatch) =>({
-    updateView: payload => { dispatch(updateViewAction(payload)) }
+const updateFieldsView = actionProp((dispatch) =>({
+    updateFieldsView: payload => { dispatch(updateFieldsViewAction(payload)) }
+}));
+
+const updateRegionsView = actionProp((dispatch) =>({
+    updateRegionsView: payload => { dispatch(updateRegionsViewAction(payload)) }
 }));
 
 const notification = stateProp(({ app: { notification } }) => ({
@@ -121,7 +126,8 @@ export {
     getGeoData,
     getRegions,
     updateFilters,
-    updateView,
+    updateFieldsView,
+    updateRegionsView,
     notification,
     isLoaderVisible,
     geodata,

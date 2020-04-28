@@ -5,12 +5,18 @@ import { Vector as SourceVector} from 'ol/source';
 
 import { connectProps } from 'store';
 import { componentDidMount, componentDidUpdate } from 'hooks';
-import { getRegions, toggleLoadingTrue, regions, regionsView, updateView } from 'modules/component-props';
+import { getRegions, toggleLoadingTrue, regions, regionsView, updateRegionsView } from 'modules/component-props';
 
 import { regionStyle } from './style';
 import { addListeners } from './listeners';
 
-const Regions = ({ getRegions, toggleLoadingTrue, regions, regionsView, updateView }) => {
+const regionModel = f => ({
+    id: f.get("id"),
+    name: f.get("name"),
+    area: Math.round(f.get("area") * 100)/100
+})
+
+const Regions = ({ getRegions, toggleLoadingTrue, regions, regionsView, updateRegionsView }) => {
     componentDidMount(() => {
         toggleLoadingTrue();
         getRegions();
@@ -22,8 +28,8 @@ const Regions = ({ getRegions, toggleLoadingTrue, regions, regionsView, updateVi
             const regionData = regions.map(p => ({
                 type: 'Feature',
                 properties: {
-                    id: p[1],
-                    name: p[0],
+                    id: p[0],
+                    name: p[1],
                     area: p[3]
                 },
                 geometry: JSON.parse(p[2]),
@@ -47,13 +53,13 @@ const Regions = ({ getRegions, toggleLoadingTrue, regions, regionsView, updateVi
                 console.log(e)
             })
             console.log(map)
-            addListeners(map, updateView);
+            addListeners(map, updateRegionsView, 'regions', regionModel);
             map.addLayer(vectorLayer)
         }
-    }, [regions])
+    }, [regions]);
     return (
         <div />
     );
 };
 
-export default connectProps(getRegions, toggleLoadingTrue, regions, regionsView, updateView)(Regions)
+export default connectProps(getRegions, toggleLoadingTrue, regions, regionsView, updateRegionsView)(Regions)

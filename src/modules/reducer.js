@@ -7,7 +7,8 @@ import {
     updateGeoData,
     updateRegions,
     updateFilters,
-    updateView
+    updateFieldsView,
+    updateRegionsView
 } from './actions';
 
 let initialState = {
@@ -54,11 +55,24 @@ const reducer = handleActions({
             ...payload
         }
     }),
-    [updateView.type]: (state, { payload }) => ({
+    [updateFieldsView.type]: (state, { payload }) => ({
         ...state,
         view: {
             ...state.view,
-            ...payload
+            fieldsView: {
+                ...state.view.fieldsView,
+                ...payload
+            }
+        }
+    }),
+    [updateRegionsView.type]: (state, { payload }) => ({
+        ...state,
+        view: {
+            ...state.view,
+            regionsView: {
+                ...state.view.regionsView,
+                ...payload
+            }
         }
     })
   },

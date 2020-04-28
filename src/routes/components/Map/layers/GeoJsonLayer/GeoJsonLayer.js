@@ -9,7 +9,7 @@ import { connectProps } from 'store';
 import { componentDidMount, componentDidUpdate } from 'hooks';
 
 import {
-    updateView,
+    updateFieldsView,
     geodata,
     toggleLoadingTrue,
     getGeoData
@@ -24,7 +24,7 @@ import {
 import { addListeners } from './listeners';
 
 const GeoJsonLayer = ({
-    updateView,
+    updateFieldsView,
     geodata,
     getGeoData,
     toggleLoadingTrue
@@ -62,7 +62,7 @@ const GeoJsonLayer = ({
             const map = document.getElementById('map').data
 
             map.addLayer(vectorLayer)
-            addListeners(map, updateView, vectorLayer);
+            addListeners(map, updateFieldsView, vectorLayer);
         }
     }, [geodata])
     return (
@@ -70,4 +70,4 @@ const GeoJsonLayer = ({
     )
 };
 
-export default connectProps(updateView, geodata, getGeoData, toggleLoadingTrue)(GeoJsonLayer);
+export default connectProps(updateFieldsView, geodata, getGeoData, toggleLoadingTrue)(GeoJsonLayer);

@@ -9,12 +9,12 @@ import { regionsView } from 'modules/component-props';
 import { classes } from './style';
 
 const DetailsDrawer = ({ regionsView }) => {
-    const isSelected = regionsView.selected && !_.isEmpty(selectedFeature.selected);
-    const featureKeys = isSelected && Object.keys(selectedFeature.selected).filter(key => key !== 'extent')
+    const isSelected = regionsView.selected && !_.isEmpty(regionsView.selected);
+    const featureKeys = isSelected && Object.keys(regionsView.selected).filter(key => key !== 'extent')
     return (
         <div className={classes.drawerWrapper + ' ' + (isSelected ?  classes.active : '')}>
             {isSelected && featureKeys.map((key, index) => (
-                <Detail key={index} detailKey={key} value={selectedFeature.selected[key]} />
+                <Detail key={index} detailKey={key} value={regionsView.selected[key]} />
             ))}
             {isSelected && <DetailsGraphs />}
         </div>
