@@ -24,28 +24,35 @@ const RegionSelection = ({regions, regionsView, updateRegionsView}) => {
             if (l instanceof LayerVector) {
                 const features = l.getSource().getFeatures()
                 const f = _.find(features, f => f.get('name') === region)
-                map.dispatchEvent(selectEvent(f))
+                const length = map.getInteractions().getArray().length
+                const deselected =  map.getInteractions().getArray()[length - 1].getFeatures().getArray()[0]
+                map.getInteractions().getArray()[length - 1].getFeatures().push(f)
+                map.getInteractions().getArray()[length - 1].dispatchEvent({
+                    type: 'select',
+                    selected: [f],
+                    deselected: [deselected]
+                  });
 
-        //         const extent = f.getGeometry().getExtent();
+        // //         const extent = f.getGeometry().getExtent();
 
-        //         map.getView().fit(extent, {maxZoom: 15, duration: 500})
-        //         const selectedOld = regionsView.selected && _.find(features, f => f.get('name') === regionsView.selected.name)
-        //         selectedOld && selectedOld.setStyle(regionStyle(selectedOld)) && selectedOld.set('state', 'deselected');
-        //         f.setStyle(clickStyle(f));
+        // //         map.getView().fit(extent, {maxZoom: 15, duration: 500})
+        // //         const selectedOld = regionsView.selected && _.find(features, f => f.get('name') === regionsView.selected.name)
+        // //         selectedOld && selectedOld.setStyle(regionStyle(selectedOld)) && selectedOld.set('state', 'deselected');
+        // //         f.setStyle(clickStyle(f));
 
-        //         f.set('state', 'selected');
-        //         return true;
+        // //         f.set('state', 'selected');
+        // //         return true;
             }
         });
 
-        const r = _.find(regions, r => r[0] === region)
-        r && updateRegionsView({
-            selected: {
-                id: r[0],
-                name: r[1],
-                area: Math.round(r[3] * 100)/100
-            }
-        })
+        // const r = _.find(regions, r => r[0] === region)
+        // r && updateRegionsView({
+        //     selected: {
+        //         id: r[0],
+        //         name: r[1],
+        //         area: Math.round(r[3] * 100)/100
+        //     }
+        // })
     }
     return (
         <FormControl variant="outlined" className={classes.regionSelection}>

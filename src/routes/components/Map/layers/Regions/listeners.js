@@ -1,4 +1,4 @@
-import { pointerMove } from 'ol/events/condition';
+import { pointerMove, click } from 'ol/events/condition';
 import Select from 'ol/interaction/Select';
 
 import {
@@ -9,10 +9,12 @@ import {
 
 const selectSingleClick = new Select({
     layers: l => l.getClassName() === 'regions',
-    style: clickStyle
+    style: regionStyle,
+    // condition: click
 });
 
 const  selectPointerMove = new Select({
+    // toggleCondition: e => e instanceof singleClick,
     condition: pointerMove,
     layers: l => l.getClassName() === 'regions',
     style: hoverStyle
@@ -23,17 +25,25 @@ export const addListeners = (map, updateView, layer, featureModel ) => {
     map.addInteraction(selectPointerMove);
     map.addInteraction(selectSingleClick);
 
-    selectPointerMove.on('select', function(e) {
-        const feature = e.selected[0]
-        updateView({
-            hovered: feature ? featureModel(feature) : {}
-        });
-    });
+    // selectPointerMove.on('select', function(e) {
+    //     const l = selectSingleClick.getFeatures().getArray();
+    //     const feature = e.selected[0]
+    //     updateView({
+    //         hovered: feature ? featureModel(feature) : {}
+    //     });
+    //     console.log(l)
+    // });
 
     selectSingleClick.on('select', function(e) {
         console.log(e)
         const feature = e.selected[0]
-        feature && map.getView().fit(
+        const deselected = e.deselected && e.deselected[0]
+        deselected &&
+        deselected.setStyle(regionStyle(deselected))
+        feature &&
+        feature.setStyle(clickStyle(feature))
+        feature &&
+        map.getView().fit(
             feature.getGeometry().getExtent(),
             {
                 maxZoom: 15,
@@ -44,5 +54,7 @@ export const addListeners = (map, updateView, layer, featureModel ) => {
         updateView({
             selected: feature ? featureModel(feature) : {}
         });
+
+        return false
     });
 };

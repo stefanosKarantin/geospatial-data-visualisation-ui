@@ -17,7 +17,7 @@ export const clickStyle = (feature, prop = 'raster_val') => new Style({
         color: 'transparent'
     }),
     stroke: new Stroke({
-        color: '#4560cc',
+        color: '#2843ad',
         opacity: 1,
         width: 3,
     }),
@@ -30,7 +30,7 @@ export const regionStyle = (feature, prop = 'raster_val') => {
             color: 'transparent'
         }),
         stroke: new Stroke({
-            color: '#4560cc',
+            color: '#5d79e8',
             opacity: 1,
             width: 1,
         }),
