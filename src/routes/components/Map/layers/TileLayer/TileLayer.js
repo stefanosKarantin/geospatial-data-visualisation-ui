@@ -21,13 +21,14 @@ const fieldModel = f => ({
 const TileLayer = ({ updateFieldsView }) => {
     componentDidMount(() => {
         const map = document.getElementById('map').data;
-        const tileLayer = new VectorTileLayer({
-            source: new VectorTile({
-                format: new MVT({
-                    featureClass: Feature
-                }),
-                url: "http://localhost:5000/tiles/{z}/{x}/{y}.pbf"
+        const source = new VectorTile({
+            format: new MVT({
+                featureClass: Feature
             }),
+            url: "http://localhost:5000/tiles/{z}/{x}/{y}.pbf"
+        })
+        const tileLayer = new VectorTileLayer({
+            source,
             style: feature => rasterValStyle(feature),
             zIndex: 3,
             className: 'fields'

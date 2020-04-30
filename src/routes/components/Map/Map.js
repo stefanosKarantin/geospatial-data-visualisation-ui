@@ -3,15 +3,12 @@ import _ from 'lodash';
 
 import { connectProps } from 'store';
 
-import { hoveredFeature, toggleLoadingTrue, updateView, geodata, getGeoData } from 'modules/component-props';
-
 import { createMapHook } from './utils';
 
 import {
     MapPopup,
     Filters
 } from './components';
-
 
 const Map = () => {
     createMapHook();

@@ -25,17 +25,17 @@ export const addListeners = (map, updateView, layer, featureModel ) => {
     map.addInteraction(selectPointerMove);
     map.addInteraction(selectSingleClick);
 
-    // selectPointerMove.on('select', function(e) {
-    //     const l = selectSingleClick.getFeatures().getArray();
-    //     const feature = e.selected[0]
-    //     updateView({
-    //         hovered: feature ? featureModel(feature) : {}
-    //     });
-    //     console.log(l)
-    // });
+    selectPointerMove.on('select', function(e) {
+        const selected = selectSingleClick.getFeatures().getArray()[0]
+        selected && selected.setStyle(clickStyle(selected))
+
+        const feature = e.selected[0]
+        updateView({
+            hovered: feature ? featureModel(feature) : {}
+        });
+    });
 
     selectSingleClick.on('select', function(e) {
-        console.log(e)
         const feature = e.selected[0]
         const deselected = e.deselected && e.deselected[0]
         deselected &&

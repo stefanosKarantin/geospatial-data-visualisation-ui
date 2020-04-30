@@ -21,7 +21,8 @@ import {
   registerService,
   refreshTokenService,
   fetchGeoJson,
-  fetchRegions
+  fetchRegions,
+  fetchFilters
 } from './services';
 
 export {
@@ -48,5 +49,6 @@ export {
   registerService,
   refreshTokenService,
   fetchGeoJson,
-  fetchRegions
+  fetchRegions,
+  fetchFilters
 };

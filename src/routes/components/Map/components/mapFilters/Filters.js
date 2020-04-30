@@ -1,9 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
 
+import { VectorTile as VectorTileLayer} from 'ol/layer';
+import { Style, Fill, Stroke} from 'ol/style';
+
 import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+
+import { connectProps } from 'store';
+import { componentDidMount, componentDidUpdate } from 'hooks';
+import { filters } from 'modules/component-props';
 import {
     FieldType
 } from './components';
@@ -15,6 +21,26 @@ const contentFilters = {
         component: <FieldType />,
         label: 'Field Type',
     }
+};
+
+const colors = ["#E9967A", "#DAA520", "#800080", "#00008B", "#FF0000", "#BC8F8F", "#55BADA", "#FFE4C4", "#F4A460"]
+
+const filterStyle = (feature, checked, prop = 'raster_val') => {
+    const emptyStyle = new Style({});
+    const style = new Style({
+        fill: new Fill({
+            color: colors[feature.get(prop) - 1],
+        }),
+        stroke: new Stroke({
+            color: colors[feature.get(prop) - 1],
+            opacity: 1,
+            width: 1,
+        }),
+        zIndex: 1
+    });
+    const checkedStye = checked.includes(feature.get(prop)) ? style : emptyStyle;
+    feature.setStyle(checkedStye);
+    return checkedStye;
 };
 
 const getPopover = (id, open, anchorEl, handleClose, component) =>
@@ -49,6 +75,17 @@ const Filters = ({ filters }) => {
     setAnchorEl(null);
   };
 
+  componentDidUpdate(() => {
+    const checked = _.filter(filters, f => f.checked).map(f => f.value)
+    const map = document.getElementById('map').data
+    map && map.getLayers().getArray().map(l => {
+        if (l instanceof VectorTileLayer) {
+            console.log('twra')
+            l.getSource().refresh()
+            l.setStyle((f) => {filterStyle(f,checked)})
+        }
+    })
+  }, [filters])  
   const open = Boolean(anchorEl);
 
   return (
@@ -76,4 +113,4 @@ const Filters = ({ filters }) => {
   );
 }
 
-export default Filters;
+export default connectProps(filters)(Filters);

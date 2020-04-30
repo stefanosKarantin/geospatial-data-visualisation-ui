@@ -48,6 +48,8 @@ const updateRegions = rootAction('UPDATE_REGIONS');
 
 const updateFilters = rootAction('UPDATE_FILTERS');
 
+const getFilters = rootAction('getFilters');
+
 const updateFieldsView = rootAction('UPDATE_VIEW');
 
 const updateRegionsView = rootAction('UPDATE_VIEW');
@@ -73,5 +75,6 @@ export {
   updateRegions,
   updateFilters,
   updateFieldsView,
-  updateRegionsView
+  updateRegionsView,
+  getFilters
 };
