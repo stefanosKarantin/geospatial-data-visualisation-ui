@@ -23,12 +23,13 @@ const RegionSelection = ({regions, regionsView}) => {
                 const f = _.find(features, f => f.get('name') === region)
                 const length = map.getInteractions().getArray().length
                 const deselected =  map.getInteractions().getArray()[length - 1].getFeatures().getArray()[0]
-                map.getInteractions().getArray()[length - 1].getFeatures().pop()
-                map.getInteractions().getArray()[length - 1].getFeatures().push(f)
+                map.getInteractions().getArray()[length - 1].getFeatures().getArray().pop()
+                map.getInteractions().getArray()[length - 1].getFeatures().getArray().push(f)
                 map.getInteractions().getArray()[length - 1].dispatchEvent({
                     type: 'select',
                     selected: [f],
-                    deselected: [deselected]
+                    deselected: [deselected],
+                    fromComponent: true
                   });
             }
         });

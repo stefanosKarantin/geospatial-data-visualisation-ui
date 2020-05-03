@@ -12,6 +12,10 @@ import { updateFieldsView } from 'modules/component-props';
 import { rasterValStyle } from './style';
 import { addListeners } from './listeners';
 
+const tilesUrl =  process.env.NODE_ENV === 'development'
+    ? "http://localhost:5000/tiles/{z}/{x}/{y}.pbf"
+    : `${window.location.protocol}//${window.location.host}/api/tiles/{z}/{x}/{y}.pbf`
+
 const fieldModel = f => ({
     id: f.get("id"),
     rasterVal: f.get("raster_val"),

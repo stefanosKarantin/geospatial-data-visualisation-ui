@@ -36,15 +36,17 @@ export const addListeners = (map, updateView, layer, featureModel ) => {
     });
 
     selectSingleClick.on('select', function(e) {
-        const feature = e.selected[0]
-        const deselected = e.deselected && e.deselected[0]
-        deselected &&
-        deselected.setStyle(regionStyle(deselected))
-        feature &&
-        feature.setStyle(clickStyle(feature))
-        feature &&
+
+        const features = selectSingleClick.getFeatures().getArray();
+        const selected = e.selected[0]
+        const deselected = e.deselected
+
+        deselected.length > 0 && deselected.forEach(d => d && d.setStyle(regionStyle(d)))
+        selected &&
+        selected.setStyle(clickStyle(selected))
+        selected &&
         map.getView().fit(
-            feature.getGeometry().getExtent(),
+            selected.getGeometry().getExtent(),
             {
                 maxZoom: 15,
                 duration: 500
@@ -52,9 +54,11 @@ export const addListeners = (map, updateView, layer, featureModel ) => {
         )
 
         updateView({
-            selected: feature ? featureModel(feature) : {}
+            selected: selected ? featureModel(selected) : {}
         });
-
+        const extraFeature = features.length > 1 && features[features.length - 1];
+        console.log(extraFeature)
+        extraFeature && extraFeature.setStyle(regionStyle(extraFeature))
         return false
     });
 };

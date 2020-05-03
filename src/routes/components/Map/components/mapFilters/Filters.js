@@ -80,7 +80,6 @@ const Filters = ({ filters }) => {
     const map = document.getElementById('map').data
     map && map.getLayers().getArray().map(l => {
         if (l instanceof VectorTileLayer) {
-            console.log('twra')
             l.getSource().refresh()
             l.setStyle((f) => {filterStyle(f,checked)})
         }
