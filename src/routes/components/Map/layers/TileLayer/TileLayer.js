@@ -29,7 +29,7 @@ const TileLayer = ({ updateFieldsView }) => {
             format: new MVT({
                 featureClass: Feature
             }),
-            url: "http://localhost:5000/tiles/{z}/{x}/{y}.pbf"
+            url: tilesUrl
         })
         const tileLayer = new VectorTileLayer({
             source,
