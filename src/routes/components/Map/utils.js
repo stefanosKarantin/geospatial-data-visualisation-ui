@@ -25,7 +25,8 @@ export const createMap = (center, zoom) => {
         view: new View({
             center,
             zoom,
-            constrainOnlyCenter: true
+            constrainOnlyCenter: true,
+            constrainResolution: true
         })
     });
     document.getElementById('map').data = map

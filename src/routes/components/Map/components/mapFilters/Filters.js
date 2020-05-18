@@ -76,12 +76,12 @@ const Filters = ({ filters }) => {
   };
 
   componentDidUpdate(() => {
-    const checked = _.filter(filters, f => f.checked).map(f => f.value)
-    const map = document.getElementById('map').data
-    map && map.getLayers().getArray().map(l => {
+      const checked = _.filter(filters, f => f.checked).map(f => f.value)
+      const map = document.getElementById('map').data
+      map && map.getLayers().getArray().map(l => {
         if (l instanceof VectorTileLayer) {
+            l.setStyle((f) => filterStyle(f,checked))
             l.getSource().refresh()
-            l.setStyle((f) => {filterStyle(f,checked)})
         }
     })
   }, [filters])  

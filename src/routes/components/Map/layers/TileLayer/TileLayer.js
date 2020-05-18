@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Feature, Tile } from 'ol';
+import { Feature } from 'ol';
 import { VectorTile as VectorTileLayer} from 'ol/layer';
 import { VectorTile } from 'ol/source';
 import MVT from 'ol/format/MVT';

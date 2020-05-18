@@ -56,8 +56,8 @@ export const addListeners = (map, updateView, layer, featureModel ) => {
         updateView({
             selected: selected ? featureModel(selected) : {}
         });
+
         const extraFeature = features.length > 1 && features[features.length - 1];
-        console.log(extraFeature)
         extraFeature && extraFeature.setStyle(regionStyle(extraFeature))
         return false
     });
