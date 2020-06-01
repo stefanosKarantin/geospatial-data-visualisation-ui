@@ -9,20 +9,20 @@ import { connectProps } from 'store';
 import { componentDidMount } from 'hooks';
 import { updateFieldsView } from 'modules/component-props';
 
-import { rasterValStyle } from './style';
-import { addListeners } from './listeners';
+// import { rasterValStyle } from './style';
+// import { addListeners } from './listeners';
 
 const tilesUrl =  process.env.NODE_ENV === 'development'
-    ? "http://localhost:5000/testTiles/{z}/{x}/{y}.pbf"
-    : `${window.location.protocol}//${window.location.host}/api/testTiles/{z}/{x}/{y}.pbf`
+    ? "http://localhost:5000/crops/{z}/{x}/{y}.pbf"
+    : `${window.location.protocol}//${window.location.host}/api/crops/{z}/{x}/{y}.pbf`
 
-const fieldModel = f => ({
-    id: f.get("id"),
-    rasterVal: f.get("raster_val"),
-    area: Math.round(f.get("area") * 100)/100
-});
+// const fieldModel = f => ({
+//     id: f.get("id"),
+//     rasterVal: f.get("raster_val"),
+//     area: Math.round(f.get("area") * 100)/100
+// });
 
-const TileLayer = ({ updateFieldsView }) => {
+const Crops = ({ updateFieldsView }) => {
     componentDidMount(() => {
         const map = document.getElementById('map').data;
         const source = new VectorTile({
@@ -33,17 +33,17 @@ const TileLayer = ({ updateFieldsView }) => {
         })
         const tileLayer = new VectorTileLayer({
             source,
-            style: feature => rasterValStyle(feature),
+            // style: feature => rasterValStyle(feature),
             zIndex: 3,
-            className: 'fields'
+            className: 'crops'
         });
 
         map.addLayer(tileLayer);
-        addListeners(map, updateFieldsView, 'fields', fieldModel);
+        // addListeners(map, updateFieldsView, 'crops', fieldModel);
     });
     return (
         <div />
     );
 };
 
-export default connectProps(updateFieldsView)(TileLayer)
+export default connectProps(updateFieldsView)(Crops)

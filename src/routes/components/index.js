@@ -3,7 +3,8 @@ import {
     Map,
     Regions,
     GeoJsonLayer,
-    TileLayer
+    TileLayer,
+    Crops
 } from './Map';
 import { PrivateRoute } from './PrivateRoute';
 import { Layout } from './Layout';
@@ -19,6 +20,7 @@ export {
   Regions,
   GeoJsonLayer,
   TileLayer,
+  Crops,
   PrivateRoute,
   Layout,
   NotificationBar,
