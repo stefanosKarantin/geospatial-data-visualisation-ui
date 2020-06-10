@@ -4,7 +4,7 @@ import Select from 'ol/interaction/Select';
 import {
     hoverStyle,
     clickStyle,
-    regionStyle
+    cropStyle
 } from './style';
 
 const selectSingleClick = new Select({

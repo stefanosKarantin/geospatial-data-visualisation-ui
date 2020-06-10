@@ -8,13 +8,13 @@ const styles = {
         left: '-100px',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         boxShadow: '40px 40px 40px 10px rgba(0, 0, 0, 0.5)',
-        width: '360px',
-        height: '280px',
+        width: 'fit-content',
+        height: 'fit-content',
         pointerEvents: 'none',
         marginTop: '64px'
     },
     detailsWrapper: {
-        margin: '160px 0 0 120px',
+        margin: '96px 0 0 120px',
     },
     detail: {
         padding: '8px'

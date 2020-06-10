@@ -5,8 +5,7 @@ import { connectProps } from 'store';
 import { regionsView, fieldsView } from 'modules/component-props';
 
 import { classes } from './style';
-
-const colors = ["#E9967A", "#DAA520", "#800080", "#00008B", "#FF0000", "#BC8F8F", "#55BADA", "#FFE4C4", "#F4A460"];
+import { fieldMappings, cropMappings } from './mappings';
 
 const PopUp = ({ hoveredFeature }) =>
     <div className={classes.popupWrapper}>
@@ -16,13 +15,14 @@ const PopUp = ({ hoveredFeature }) =>
                     <span
                         className={classes.detailKey}
                     >
-                        {k + ': '}
+                        {fieldMappings[k].key + ': '}
                     </span>
                     <span
                         className={classes.detailValue}
-                        style={{color: k === 'rasterVal' ? colors[hoveredFeature[k] - 1] : '#fff'}}
+                        style={{color: fieldMappings[k].value ? fieldMappings[k].value[hoveredFeature[k]].color : '#fff'}}
                     >
-                        {k === 'area' ? <span>{hoveredFeature[k] + ' m'}<sup>2</sup> </span> : hoveredFeature[k]}
+                        {fieldMappings[k].value ? fieldMappings[k].value[hoveredFeature[k]].name : hoveredFeature[k]}
+                        {fieldMappings[k].unit ? <span dangerouslySetInnerHTML={{__html: fieldMappings[k].unit}} /> : '' }
 
                     </span>
                 </div>

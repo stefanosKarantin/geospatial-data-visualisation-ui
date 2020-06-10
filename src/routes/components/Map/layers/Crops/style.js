@@ -1,10 +1,10 @@
 import { Style, Fill, Stroke} from 'ol/style';
 
-export const colors = ["#E9967A", "#DAA520", "#800080", "#00008B", "#FF0000", "#BC8F8F", "#55BADA", "#FFE4C4", "#F4A460"]
+import { cropMappings } from './mappings'
 
-export const hoverStyle = (feature, prop = 'raster_val') => new Style({
+export const hoverStyle = (feature, prop = 'ct_decl') => new Style({
     fill: new Fill({
-        color: colors[feature.get(prop) - 1]
+        color: cropMappings[feature.get('ct_decl')].color
     }),
     stroke: new Stroke({
         color: '#001852',
@@ -14,9 +14,9 @@ export const hoverStyle = (feature, prop = 'raster_val') => new Style({
     zIndex: 3
 });
 
-export const clickStyle = (feature, prop = 'raster_val') => new Style({
+export const clickStyle = (feature, prop = 'ct_decl') => new Style({
     fill: new Fill({
-        color: colors[feature.get(prop) - 1]
+        color: cropMappings[feature.get('ct_decl')].color
     }),
     stroke: new Stroke({
         color: '#001852',
@@ -27,13 +27,13 @@ export const clickStyle = (feature, prop = 'raster_val') => new Style({
     zIndex: 3
 });
 
-export const rasterValStyle = (feature, prop = 'raster_val') => {
+export const cropStyle = (feature, prop = 'ct_decl') => {
     const style = new Style({
         fill: new Fill({
-            color: colors[feature.get(prop) - 1],
+            color: cropMappings[feature.get('ct_decl')].color,
         }),
         stroke: new Stroke({
-            color: colors[feature.get(prop) - 1],
+            color: cropMappings[feature.get('ct_decl')].color,
             opacity: 1,
             width: 1,
         }),
