@@ -22,7 +22,9 @@ import {
   getRegions as getRegionsAction,
   updateFilters as updateFiltersAction,
   updateFieldsView as updateFieldsViewAction,
-  updateRegionsView as updateRegionsViewAction
+  updateRegionsView as updateRegionsViewAction,
+  toggleGraphs as toggleGraphsAction,
+  getGraphs as getGraphsAction
 } from './actions';
 
 /////////////////////////////////
@@ -85,6 +87,14 @@ const updateRegionsView = actionProp((dispatch) =>({
     updateRegionsView: payload => { dispatch(updateRegionsViewAction(payload)) }
 }));
 
+const toggleGraphs = actionProp((dispatch) =>({
+    toggleGraphs: payload => { dispatch(toggleGraphsAction(payload)) }
+}));
+
+const getGraphs = actionProp((dispatch) =>({
+    getGraphs: payload => { dispatch(getGraphsAction(payload)) }
+}));
+
 const notification = stateProp(({ app: { notification } }) => ({
     notification
 }));
@@ -113,6 +123,14 @@ const fieldsView = stateProp(({ app: { view: { fieldsView } } }) => ({
     fieldsView
 }));
 
+const graphsView = stateProp(({ app: { view: { graphsView } } }) => ({
+    graphsView
+}));
+
+const graphs = stateProp(({ app: { graphs } }) => ({
+    graphs
+}));
+
 export {
     changeLocation,
     signIn,
@@ -134,5 +152,9 @@ export {
     filters,
     regions,
     regionsView,
-    fieldsView
+    fieldsView,
+    toggleGraphs,
+    getGraphs,
+    graphsView,
+    graphs
 };

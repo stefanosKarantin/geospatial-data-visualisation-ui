@@ -8,7 +8,9 @@ import {
     updateRegions,
     updateFilters,
     updateFieldsView,
-    updateRegionsView
+    updateRegionsView,
+    toggleGraphs,
+    updateGraphs
 } from './actions';
 
 let initialState = {
@@ -21,7 +23,8 @@ let initialState = {
     filters: {},
     view: {
         regionsView: {},
-        fieldsView: {}
+        fieldsView: {},
+        graphsView: false
     }
 };
 
@@ -74,7 +77,18 @@ const reducer = handleActions({
                 ...payload
             }
         }
-    })
+    }),
+    [toggleGraphs.type]: (state) => ({
+        ...state,
+        view: {
+            ...state.view,
+            graphsView: !state.view.graphsView
+        }
+    }),
+    [updateGraphs.type]: (state, { payload }) => ({
+        ...state,
+        graphs: { ...payload }
+    }),
   },
   {
     ...initialState,

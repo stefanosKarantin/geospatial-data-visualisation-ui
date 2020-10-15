@@ -13,6 +13,9 @@ const styles = {
         position: 'relative',
         overflow: 'hidden'
       },
+      graphsSideBar: {
+        overflow: 'initial'
+      },
       logoutBtn: {
           position: 'absolute',
           top: '8px',

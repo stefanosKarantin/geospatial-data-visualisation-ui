@@ -15,6 +15,23 @@ const styles = {
     },
     active: {
         bottom: '-160px'
+    },
+    graphsView: {
+        width: 'calc(100vw - 32px)',
+        position: 'absolute',
+        bottom: 0,
+        height: 'calc(100vh - 160px)',
+        transition: 'none'
+    },
+    graphBtn: {
+        position: 'absolute',
+        bottom: '186px',
+        right: '8px',
+        height: '52px'
+    },
+    graphIcon: {
+      fill: 'white',
+      width: '30px'
     }
 };
 

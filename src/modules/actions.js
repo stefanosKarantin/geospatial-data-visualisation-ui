@@ -53,6 +53,12 @@ const getFilters = rootAction('getFilters');
 const updateFieldsView = rootAction('UPDATE_VIEW');
 
 const updateRegionsView = rootAction('UPDATE_VIEW');
+
+const toggleGraphs = rootAction('TOGGLE_GRAPHS');
+
+const getGraphs = rootAction('GET_GRAPHS');
+
+const updateGraphs = rootAction('UPDATE_GRAPHS');
 /////////////////////////////////////
 
 
@@ -76,5 +82,8 @@ export {
   updateFilters,
   updateFieldsView,
   updateRegionsView,
-  getFilters
+  getFilters,
+  toggleGraphs,
+  getGraphs,
+  updateGraphs
 };

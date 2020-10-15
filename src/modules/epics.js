@@ -52,7 +52,8 @@ import {
     refreshTokenService,
     fetchGeoJson,
     fetchRegions,
-    fetchFilters
+    fetchFilters,
+    fetchGraphs
 } from 'model-services';
 
 import {
@@ -71,7 +72,9 @@ import {
     getRegions,
     updateRegions,
     updateFilters,
-    getFilters
+    getFilters,
+    getGraphs,
+    updateGraphs
 } from './actions';
 
 const redirectionErrorEpic = action$ =>
@@ -294,7 +297,21 @@ const getFiltersEpic = action$ =>
                     )
             )
         );
-    
+
+const getGraphsEpic = action$ =>
+    action$.ofType(getGraphs.type)
+        .pipe(
+            mergeMap(_ =>
+                observableFrom(fetchGraphs())
+                    .pipe(
+                        mergeMap(({data}) => ([
+                            updateGraphs(data.graphs),
+                            toggleLoadingFalse()
+                        ]))
+                    )
+            )
+        );
+        
 const homeEpic = combineEpics(
   redirectionErrorEpic,
   signInEpic,
@@ -304,7 +321,8 @@ const homeEpic = combineEpics(
   getNewAccessTokenEpic,
   getGeoJsonEpic,
   getRegionsEpic,
-  getFiltersEpic
+  getFiltersEpic,
+  getGraphsEpic
 );
 
  export default homeEpic;

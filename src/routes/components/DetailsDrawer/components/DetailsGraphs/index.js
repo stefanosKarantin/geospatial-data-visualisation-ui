@@ -1,1 +1,3 @@
-export { DetailsGraphs } from './DetailsGraphs';
+import DetailsGraphs from './DetailsGraphs';
+
+export { DetailsGraphs };

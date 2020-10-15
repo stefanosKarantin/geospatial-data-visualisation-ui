@@ -29,3 +29,5 @@ export const fetchGeoJson = postService('/geo/getcretandata', true);
 export const fetchRegions = postService('/geo/regions', true);
 
 export const fetchFilters = postService('/getTestFilters', true);
+
+export const fetchGraphs = postService('/geo/graphs', true);

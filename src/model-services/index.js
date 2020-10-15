@@ -22,7 +22,8 @@ import {
   refreshTokenService,
   fetchGeoJson,
   fetchRegions,
-  fetchFilters
+  fetchFilters,
+  fetchGraphs
 } from './services';
 
 export {
@@ -50,5 +51,6 @@ export {
   refreshTokenService,
   fetchGeoJson,
   fetchRegions,
-  fetchFilters
+  fetchFilters,
+  fetchGraphs
 };
